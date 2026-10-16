@@ -123,10 +123,68 @@ button.row:hover{background:var(--sunk)}
 .sum2 span{font-size:12.5px;color:var(--muted);display:block}
 .sum2 b{font-family:var(--f-display);font-size:18px}
 
+
+/* analytics */
+.yswitch{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.yswitch .yl{font-family:var(--f-display);font-weight:800;font-size:20px}
+.yswitch .mswitch span{min-width:60px}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.kpi span{font-size:12.5px;color:var(--muted)}
+.kpi b{font-family:var(--f-display);font-size:19px;font-weight:700;overflow-wrap:anywhere}
+.kpi small{font-size:12px;color:var(--muted)}
+.kpi.hl{background:var(--accent-soft);border-color:transparent}
+.kpi .up{color:var(--bad)} .kpi .down{color:var(--accent)}
+.chartbox{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 10px 8px}
+.chartbox svg{display:block;width:100%;height:auto;overflow:visible}
+.chartbox .grid{stroke:var(--line);stroke-width:1}
+.chartbox .axl{fill:var(--muted);font-size:10px;font-family:var(--f-body)}
+.chartbox .mlab{fill:var(--muted);font-size:10px;font-family:var(--f-body)}
+.chartbox .mlab.cur{fill:var(--fg);font-weight:700}
+.chartbox .bf{fill:var(--fixed)} .chartbox .bv{fill:var(--accent)}
+.chartbox .proj .bf,.chartbox .proj .bv{opacity:.32}
+.chartbox .proj .outline{fill:none;stroke:var(--muted);stroke-dasharray:3 3;stroke-width:1}
+.chartbox .inc{stroke:var(--warn);stroke-width:1.5;stroke-dasharray:5 4;fill:none}
+.chartbox .inclab{fill:var(--warn);font-size:10px;font-weight:600;font-family:var(--f-body)}
+.chartbox .hit{fill:transparent;cursor:pointer}
+.chartbox .hit:hover{fill:var(--sunk);opacity:.5}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--muted);padding:6px 6px 2px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-inline-end:5px;vertical-align:-1px}
+.catbar{display:flex;flex-direction:column;gap:5px;padding:11px 14px;border-top:1px solid var(--line)}
+.catbar:first-child{border-top:0}
+.catbar .hd{display:flex;gap:8px;align-items:center;font-size:14px}
+.catbar .hd .nm{flex:1;min-width:0;font-weight:600}
+.catbar .hd .v{font-size:13px;color:var(--muted);white-space:nowrap}
+.catbar .bar i{background:var(--c,var(--accent))}
+.tl{display:flex;flex-direction:column}
+.tl .it{display:flex;gap:12px;padding:12px 14px;border-top:1px solid var(--line);align-items:flex-start}
+.tl .it:first-child{border-top:0}
+.tl .when{font-family:var(--f-display);font-weight:700;font-size:13px;min-width:78px;color:var(--fixed)}
+.tl .what{flex:1;min-width:0;font-size:14px}
+.tl .what small{display:block;color:var(--muted);font-size:12.5px}
+
+
+/* alerts + advisor */
+.alerts{display:flex;flex-direction:column;gap:8px}
+.alert .ic{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:700;background:var(--warn);color:var(--surface)}
+.alert.bad .ic{background:var(--bad)}
+.alert.info{background:var(--accent-soft)} .alert.info .ic{background:var(--accent)} .alert.info b{color:var(--accent)}
+.adv{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:12px}
+.adv .asks{display:grid;grid-template-columns:1fr;gap:8px}
+.adv .ask{display:flex;gap:10px;align-items:center;text-align:start;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:12px;padding:11px 12px;cursor:pointer;font-size:14px;font-weight:600}
+.adv .ask:hover{border-color:var(--accent)}
+.adv .ask small{display:block;font-weight:400;color:var(--muted);font-size:12.5px}
+.adv .ask:disabled{opacity:.55;cursor:default}
+.adv .out{font-size:14.5px;line-height:1.75;border-top:1px solid var(--line);padding-top:12px}
+.adv .out h4{margin:10px 0 4px;font-family:var(--f-display);font-size:15px}
+.adv .out ul{margin:4px 0;padding-inline-start:20px}
+.adv .out p{margin:6px 0}
+.adv .note{font-size:12px;color:var(--muted)}
+
 /* nav + fab */
 nav.tabs{position:fixed;inset:auto 0 0 0;z-index:20;background:var(--surface);border-top:1px solid var(--line);
   padding-bottom:env(safe-area-inset-bottom,0px);padding-left:max(8px,env(safe-area-inset-left,0px));padding-right:max(8px,env(safe-area-inset-right,0px))}
-nav.tabs .in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+nav.tabs .in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
 nav.tabs button{border:0;background:none;color:var(--muted);padding:10px 2px 9px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px;font-weight:600;cursor:pointer}
 nav.tabs button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 nav.tabs button[aria-current="page"]{color:var(--accent)}
@@ -187,6 +245,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);outline:none;
   <button type="button" data-tab="month"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>الشهر</button>
   <button type="button" data-tab="list"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>المصروفات</button>
   <button type="button" data-tab="fixed"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>الالتزامات</button>
+  <button type="button" data-tab="analytics"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 6-7"/></svg>التحليلات</button>
   <button type="button" data-tab="settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>الإعدادات</button>
 </div></nav>
 
@@ -293,9 +352,9 @@ function render(){
   document.getElementById("modeNote").textContent=S.mode==="cloud"?"محفوظ في حسابك":S.mode==="local"?"محفوظ على الجهاز ده بس":"جاري التحميل…";
   document.querySelectorAll("nav.tabs button").forEach(b=>b.toggleAttribute("aria-current",false)||b.dataset.tab===S.tab&&b.setAttribute("aria-current","page"));
   const v=document.getElementById("view");
-  v.innerHTML=S.tab==="list"?viewList():S.tab==="fixed"?viewFixed():S.tab==="settings"?viewSettings():viewMonth();
-  document.querySelector(".fab").hidden=S.tab==="settings";
-  document.querySelector(".mswitch").style.visibility=(S.tab==="fixed"||S.tab==="settings")?"hidden":"visible";
+  v.innerHTML=S.tab==="analytics"?viewAnalytics():S.tab==="list"?viewList():S.tab==="fixed"?viewFixed():S.tab==="settings"?viewSettings():viewMonth();
+  document.querySelector(".fab").hidden=S.tab==="settings"||S.tab==="analytics";
+  document.querySelector(".mswitch").style.visibility=(S.tab==="fixed"||S.tab==="settings"||S.tab==="analytics")?"hidden":"visible";
 }
 
 function viewMonth(){
@@ -311,7 +370,7 @@ function viewMonth(){
     <button class="setinc" type="button" data-act="goSettings">اكتب دخلك الشهري عشان نحسب اللي فاضل</button>`;
   }
   h+=`<div class="trio num"><div><span>الدخل</span><b>${fmt(d.income)}</b></div><div><span>التزامات ثابتة</span><b>${fmt(d.fixed)}</b></div><div><span>مصاريف متغيرة</span><b>${fmt(d.variable)}</b></div></div></div>`;
-  if(d.income&&ratio>0.4)h+=`<div class="alert ${ratio>0.6?"bad":""}"><div><b>الالتزامات الثابتة ${Math.round(ratio*100)}% من دخلك.</b> الطبيعي إنها متعدّيش 40%، فحاول متدخلش في أقساط جديدة لحد ما حاجة تخلص.</div></div>`;
+  if(S.ym===THIS_YM)h+=alertsBlock(d);
 
   if(S.ym===THIS_YM){
     const soon=S.fixed.map(f=>({f,i:fixedInfo(f)})).filter(x=>x.i.next&&daysUntil(x.i.next)>=0&&daysUntil(x.i.next)<=10).sort((a,b)=>a.i.next.localeCompare(b.i.next));
@@ -395,6 +454,188 @@ function readDraft(){
   document.querySelectorAll("[data-p]").forEach(el=>draft.pays[+el.dataset.p]=el.value.trim());
 }
 
+
+/* ---------- analytics ---------- */
+const MSHORT=["ينا","فبر","مار","أبر","ماي","يون","يول","أغس","سبت","أكت","نوف","ديس"];
+S.ay=Number(THIS_YM.slice(0,4));
+const kfmt=n=>{n=Math.round(n);return Math.abs(n)>=1000?(n/1000).toFixed(Math.abs(n)>=10000?0:1).replace(/\.0$/,"")+"k":String(n)};
+const varOf=ym=>S.expenses.reduce((a,e)=>a+((e.date||"").slice(0,7)===ym?(Number(e.amount)||0):0),0);
+const fixedOf=ym=>S.fixed.reduce((a,f)=>a+(fixedActive(f,ym)?(Number(f.amount)||0):0),0);
+function avgVariable(){
+  const past=[];for(let k=1;k<=12&&past.length<3;k++){const ym=addM(THIS_YM,-k);const v=varOf(ym);if(v>0)past.push(v)}
+  if(past.length)return{v:past.reduce((a,b)=>a+b,0)/past.length,basis:`متوسط آخر ${past.length===1?"شهر":past.length===2?"شهرين":"3 شهور"}`};
+  const cur=varOf(THIS_YM);const dom=now.getDate(),dim=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+  if(cur>0)return{v:cur/dom*dim,basis:"على أساس صرف الشهر ده"};
+  const b=S.settings.cats.reduce((a,c)=>a+(Number(c.budget)||0),0);
+  return{v:b,basis:"على أساس الميزانيات"};
+}
+function viewAnalytics(){
+  const Y=S.ay,inc=Number(S.settings.income)||0,avg=avgVariable();
+  const months=[];for(let m=1;m<=12;m++){const ym=`${Y}-${pad(m)}`;const fut=ym>THIS_YM;const f=fixedOf(ym);const v=fut?avg.v:varOf(ym);months.push({ym,m,fut,cur:ym===THIS_YM,f,v,t:f+v})}
+  const actual=months.filter(x=>!x.fut),proj=months.filter(x=>x.fut);
+  const spent=actual.reduce((a,x)=>a+x.t,0);
+  const withData=actual.filter(x=>x.t>0);
+  const mAvg=withData.length?spent/withData.length:0;
+  const top=withData.reduce((a,x)=>!a||x.t>a.t?x:a,null);
+  const yearEnd=spent+proj.reduce((a,x)=>a+x.t,0);
+  const saved=inc?inc*actual.length-spent:null;
+  let h=`<div class="yswitch"><span class="yl num">تحليلات ${Y}</span><div class="mswitch"><button type="button" data-act="yprev" aria-label="السنة اللي فاتت">›</button><span class="num">${Y}</span><button type="button" data-act="ynext" aria-label="السنة الجاية">‹</button></div></div>`;
+  h+=`<div class="kpis num">
+    <div class="kpi"><span>اتصرف ${proj.length&&actual.length?"لحد دلوقتي":"في السنة"}</span><b>${money(spent)}</b><small>${actual.length} ${actual.length>10||actual.length<3?"شهر":"شهور"}</small></div>
+    <div class="kpi"><span>متوسط الشهر</span><b>${money(mAvg)}</b><small>${withData.length?`على ${withData.length} ${withData.length>10||withData.length<3?"شهر":"شهور"} فيهم صرف`:"لسه مفيش بيانات"}</small></div>
+    <div class="kpi"><span>أعلى شهر</span><b>${top?money(top.t):"—"}</b><small>${top?ymLabel(top.ym):""}</small></div>
+    ${proj.length?`<div class="kpi hl"><span>متوقع آخر السنة</span><b>${money(yearEnd)}</b><small>الشهور الجاية ${avg.basis}</small></div>`:
+      `<div class="kpi hl"><span>${saved==null?"إجمالي الالتزامات":"اللي اتوفّر"}</span><b>${saved==null?money(actual.reduce((a,x)=>a+x.f,0)):money(saved)}</b><small>${saved==null?"اكتب دخلك في الإعدادات":"الدخل ناقص المصروف"}</small></div>`}
+  </div>`;
+  if(inc&&actual.length&&proj.length)h+=`<div class="kpis num"><div class="kpi"><span>اللي اتوفّر لحد دلوقتي</span><b class="${saved<0?"up":""}">${money(saved)}</b><small>دخل ${actual.length} شهور ناقص المصروف</small></div><div class="kpi"><span>متوقع توفّر آخر السنة</span><b>${money(inc*12-yearEnd)}</b><small>لو كمّلت بنفس المعدل</small></div></div>`;
+  h+=`<section><h2>شهر بشهر<small>اضغط على أي شهر يفتحه</small></h2>${barChart(months,inc)}</section>`;
+  h+=compareBlock();
+  h+=categoryBlock(Y);
+  h+=outlookBlock();
+  h+=advisorBlock();
+  return h;
+}
+function barChart(months,inc){
+  const W=360,H=210,pl=6,pr=34,pt=14,pb=24,cw=W-pl-pr,ch=H-pt-pb,bw=cw/12;
+  const maxV=Math.max(1,inc,...months.map(x=>x.t));
+  const step=(()=>{const raw=maxV/4;const p=Math.pow(10,Math.floor(Math.log10(raw)));const n=raw/p;return(n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10)*p})();
+  const top=Math.ceil(maxV/step)*step,y=v=>pt+ch-(v/top)*ch;
+  let g="";
+  for(let t=0;t<=top+0.001;t+=step){g+=`<line class="grid" x1="${pl}" x2="${pl+cw}" y1="${y(t)}" y2="${y(t)}"/><text class="axl" x="${W-2}" y="${y(t)+3}" text-anchor="end">${kfmt(t)}</text>`}
+  months.forEach((x,i)=>{const cx=pl+cw-(i+.5)*bw,w=Math.max(6,bw*.62),x0=cx-w/2;
+    const yf=y(x.f),yv=y(x.f+x.v);
+    g+=`<g class="${x.fut?"proj":""}">${x.f>0?`<rect class="bf" x="${x0}" y="${yf}" width="${w}" height="${Math.max(0,pt+ch-yf)}" rx="2"/>`:""}${x.v>0?`<rect class="bv" x="${x0}" y="${yv}" width="${w}" height="${Math.max(0,yf-yv)}" rx="2"/>`:""}${x.fut&&x.t>0?`<rect class="outline" x="${x0}" y="${yv}" width="${w}" height="${pt+ch-yv}" rx="2"/>`:""}</g>`;
+    g+=`<text class="mlab ${x.cur?"cur":""}" x="${cx}" y="${H-8}" text-anchor="middle">${MSHORT[x.m-1]}</text>`;
+    g+=`<rect class="hit" x="${cx-bw/2}" y="${pt}" width="${bw}" height="${ch+pb}" data-act="gomonth" data-ym="${x.ym}"><title>${ymLabel(x.ym)}: ${money(x.t)}${x.fut?" (متوقع)":""}</title></rect>`});
+  if(inc)g+=`<line class="inc" x1="${pl}" x2="${pl+cw}" y1="${y(inc)}" y2="${y(inc)}"/><text class="inclab" x="${pl+2}" y="${y(inc)-4}">الدخل</text>`;
+  return`<div class="chartbox"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="المصروف الشهري للسنة">${g}</svg>
+  <div class="legend"><span><i style="background:var(--fixed)"></i>التزامات ثابتة</span><span><i style="background:var(--accent)"></i>مصاريف متغيرة</span><span><i style="background:var(--muted);opacity:.35"></i>متوقع</span>${inc?`<span><i style="background:var(--warn)"></i>الدخل</span>`:""}</div></div>`;
+}
+function compareBlock(){
+  const a=THIS_YM,b=addM(THIS_YM,-1);
+  const ta=varOf(a)+fixedOf(a),tb=varOf(b)+fixedOf(b);
+  if(!ta&&!tb)return"";
+  const dom=now.getDate(),dim=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+  const pace=varOf(a)/dom*dim+fixedOf(a);
+  const diff=tb?(pace-tb)/tb:null;
+  const catsA={},catsB={};
+  S.expenses.forEach(e=>{const ym=(e.date||"").slice(0,7);const v=Number(e.amount)||0;if(ym===a)catsA[e.cat]=(catsA[e.cat]||0)+v;if(ym===b)catsB[e.cat]=(catsB[e.cat]||0)+v});
+  const ch=[...new Set([...Object.keys(catsA),...Object.keys(catsB)])].map(c=>({c,d:(catsA[c]||0)-(catsB[c]||0)})).filter(x=>x.d).sort((x,y)=>Math.abs(y.d)-Math.abs(x.d)).slice(0,3);
+  return`<section><h2>الشهر ده مقابل اللي فات</h2><div class="kpis num">
+  <div class="kpi"><span>${ymLabel(a)} لحد النهارده</span><b>${money(ta)}</b><small>بالمعدل ده هيوصل ${money(pace)}</small></div>
+  <div class="kpi"><span>${ymLabel(b)}</span><b>${money(tb)}</b><small>${diff==null?"":`<span class="${diff>0?"up":"down"}">${diff>0?"▲ أعلى":"▼ أقل"} ${Math.abs(Math.round(diff*100))}%</span> متوقع`}</small></div></div>
+  ${ch.length?`<div class="panel" style="margin-top:10px">${ch.map(x=>`<div class="row" style="cursor:default"><span class="dot" style="background:${catColor(x.c)}"></span><span class="main"><span class="t">${esc(x.c)}</span></span><span class="amt num" style="color:${x.d>0?"var(--bad)":"var(--accent)"}">${x.d>0?"+":"−"}${fmt(Math.abs(x.d))}</span></div>`).join("")}</div>`:""}</section>`;
+}
+function categoryBlock(Y){
+  const by={};let tot=0;
+  S.expenses.forEach(e=>{if((e.date||"").slice(0,4)===String(Y)){const v=Number(e.amount)||0;by[e.cat]=(by[e.cat]||0)+v;tot+=v}});
+  let fx=0;for(let m=1;m<=12;m++){const ym=`${Y}-${pad(m)}`;if(ym<=THIS_YM)fx+=fixedOf(ym)}
+  const rows=Object.entries(by).sort((a,b)=>b[1]-a[1]);
+  if(fx)rows.unshift(["أقساط والتزامات ثابتة",fx]);
+  const all=tot+fx;if(!all)return`<section><h2>الصرف راح فين</h2><div class="empty"><b>مفيش صرف متسجل في ${Y}</b>لما تسجّل مصاريف هتشوف هنا كل فئة أخدت كام من فلوسك.</div></section>`;
+  const mx=rows[0][1];
+  return`<section><h2>الصرف راح فين<small class="num">${money(all)} في ${Y}</small></h2><div class="panel">${rows.map(([c,v],i)=>{const col=i===0&&fx&&c.startsWith("أقساط")?"var(--fixed)":catColor(c);
+    return`<div class="catbar"><div class="hd"><span class="dot" style="background:${col}"></span><span class="nm">${esc(c)}</span><span class="v num">${fmt(v)} · ${Math.round(v/all*100)}%</span></div><div class="bar"><i style="width:${v/mx*100}%;--c:${col}"></i></div></div>`}).join("")}</div></section>`;
+}
+function outlookBlock(){
+  const items=[];let prev=fixedOf(THIS_YM);
+  for(let k=1;k<=18;k++){const ym=addM(THIS_YM,k);const f=fixedOf(ym);
+    if(f!==prev){const ending=S.fixed.filter(x=>x.end&&addM(x.end,1)===ym).map(x=>x.name);const starting=S.fixed.filter(x=>x.start===ym).map(x=>x.name);
+      items.push({ym,f,d:f-prev,ending,starting})}
+    prev=f}
+  const ends=S.fixed.filter(f=>f.end&&f.end>=THIS_YM).map(f=>f.end).sort();
+  const last=ends[ends.length-1];
+  if(!items.length&&!last)return S.fixed.length?"":`<section><h2>اللي جاي</h2><div class="empty"><b>ضيف أقساطك عشان تشوف الجاي</b>من «الالتزامات» سجّل كل قسط بتاريخ آخر شهر، وهنا هتعرف إمتى كل واحد هيخلص وهتوفّر كام.</div></section>`;
+  return`<section><h2>اللي جاي<small>الـ 18 شهر الجايين</small></h2><div class="panel tl">
+  ${items.map(x=>`<div class="it"><span class="when">${ymLabel(x.ym)}</span><span class="what">${x.d<0?`الالتزامات هتقل <b class="num">${fmt(-x.d)}</b> وتبقى <span class="num">${money(x.f)}</span>`:`الالتزامات هتزيد <b class="num">${fmt(x.d)}</b> وتبقى <span class="num">${money(x.f)}</span>`}<small>${x.ending.length?"خلص: "+x.ending.map(esc).join("، "):""}${x.ending.length&&x.starting.length?" · ":""}${x.starting.length?"يبدأ: "+x.starting.map(esc).join("، "):""}</small></span></div>`).join("")}
+  ${last?`<div class="it"><span class="when" style="color:var(--accent)">${ymLabel(last)}</span><span class="what">آخر قسط في التزاماتك الحالية<small>بعدها هيفضل بس المستمر: <span class="num">${money(S.fixed.filter(f=>!f.end).reduce((a,f)=>a+(Number(f.amount)||0),0))}</span> شهرياً</small></span></div>`:""}
+  </div></section>`;
+}
+
+
+/* ---------- alerts ---------- */
+function computeAlerts(d){
+  const out=[];const inc=d.income;
+  const dom=now.getDate(),dim=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+  const pace=d.variable/dom*dim+d.fixed;
+  if(inc&&d.fixed+d.variable>inc)out.push({lvl:"bad",t:`صرفت أكتر من دخلك الشهر ده بـ ${money(d.fixed+d.variable-inc)}.`,s:"وقّف أي صرف مش ضروري لحد أول الشهر."});
+  else if(inc&&dom>=5&&pace>inc)out.push({lvl:"bad",t:`بالمعدل ده هتصرف ${money(pace)} وده أكتر من دخلك.`,s:`عشان تقفل الشهر في السليم، متعدّيش ${money(Math.max(0,(inc-d.fixed-d.variable)/Math.max(1,dim-dom+1)))} في اليوم لباقي الشهر.`});
+  const ratio=inc?d.fixed/inc:0;
+  if(inc&&ratio>0.4)out.push({lvl:ratio>0.6?"bad":"warn",t:`الالتزامات الثابتة ${Math.round(ratio*100)}% من دخلك.`,s:"الطبيعي متعدّيش 40%. بلاش أقساط جديدة لحد ما حاجة تخلص."});
+  for(const c of S.settings.cats){const sp=d.byCat[c.name]||0,b=Number(c.budget)||0;if(!b||!sp)continue;
+    if(sp>b)out.push({lvl:"bad",t:`عدّيت ميزانية «${c.name}» بـ ${money(sp-b)}.`});
+    else if(sp/b>=.8)out.push({lvl:"warn",t:`«${c.name}» فاضلها ${money(b-sp)} بس من الميزانية.`})}
+  S.fixed.forEach(f=>{const i=fixedInfo(f);if(!i.next)return;const n=daysUntil(i.next);if(n>=0&&n<=3)out.push({lvl:"warn",t:`قسط «${f.name}» ${money(f.amount)} مستحق ${n===0?"النهارده":n===1?"بكره":`بعد ${n} أيام`}.`})});
+  if(S.expenses.length){const last=S.expenses.reduce((a,e)=>e.date>a?e.date:a,"");const gap=-daysUntil(last);if(gap>=3)out.push({lvl:"info",t:`مسجّلتش أي مصروف من ${gap} أيام.`,s:"سجّل أول بأول عشان الأرقام تبقى مظبوطة."})}
+  const order={bad:0,warn:1,info:2};return out.sort((a,b)=>order[a.lvl]-order[b.lvl]);
+}
+function alertsBlock(d){
+  const a=computeAlerts(d);if(!a.length)return"";
+  const shown=a.slice(0,5);
+  return`<section><h2>تنبيهات<small>${a.length}</small></h2><div class="alerts">${shown.map(x=>`<div class="alert ${x.lvl==="bad"?"bad":x.lvl==="info"?"info":""}"><span class="ic">${x.lvl==="info"?"i":"!"}</span><div><b>${esc(x.t)}</b>${x.s?` ${esc(x.s)}`:""}</div></div>`).join("")}</div></section>`;
+}
+
+/* ---------- AI advisor ---------- */
+const AI={sample:null,checked:false,busy:false,out:"",kind:"",ctrl:null};
+async function loadSample(){if(AI.checked)return;AI.checked=true;try{AI.sample=window.claude&&typeof window.claude.use==="function"?await window.claude.use("sample"):null}catch(e){AI.sample=null}if(S.tab==="analytics")render()}
+function financeSummary(){
+  const months=[];for(let k=3;k>=0;k--){const ym=addM(THIS_YM,-k);const by={};S.expenses.forEach(e=>{if((e.date||"").slice(0,7)===ym)by[e.cat]=(by[e.cat]||0)+(Number(e.amount)||0)});
+    months.push({month:ym,partial:ym===THIS_YM?`${now.getDate()} يوم من الشهر`:undefined,fixed:fixedOf(ym),variable:varOf(ym),byCategory:by})}
+  return{currency:"EGP",today:TODAY,monthlyIncome:Number(S.settings.income)||0,
+    budgets:S.settings.cats.filter(c=>Number(c.budget)>0).map(c=>({category:c.name,monthlyBudget:Number(c.budget)})),
+    fixedCommitments:S.fixed.map(f=>{const i=fixedInfo(f);return{name:f.name,type:f.type,monthly:Number(f.amount)||0,lastMonth:f.end||"مستمر",monthsLeft:i.left,remainingTotal:i.remainingAmt,ended:!!i.ended}}),
+    lastMonths:months};
+}
+const PROMPTS={
+  plan:"اعمل خطة لتوزيع المرتب الشهري على الفئات (ضروريات، التزامات، ادخار، ترفيه) مبنية على أرقامي الحقيقية. قارن الخطة بصرفي الفعلي وقولّي أعدّل إيه بالظبط في الميزانيات وبكام.",
+  save:"حلّل صرفي وطلّعلي أهم 5 حاجات أقدر أوفّر فيها، مع رقم تقريبي للتوفير الشهري لكل واحدة، وابدأ بالأكبر تأثيرًا.",
+  invest:"بناءً على دخلي والتزاماتي والفايض اللي بيفضل، اشرحلي بشكل عام أترتب إزاي: صندوق الطوارئ الأول وحجمه كام شهر، وبعدين أنواع الاستثمار المتاحة في مصر بشكل عام (زي الشهادات البنكية، صناديق الاستثمار، الذهب، البورصة) ومزايا وعيوب كل نوع لحالتي، وأوزّع الفايض إزاي كنسب تقريبية.",
+  month:"راجع الشهر الحالي لحد النهارده: ماشي كويس ولا لأ، وإيه أخطر حاجة، وأعمل إيه في باقي الشهر علشان أقفله من غير عجز."
+};
+async function askAI(kind){
+  if(!AI.sample||AI.busy)return;
+  AI.busy=true;AI.kind=kind;AI.out="";render();
+  const sys=`إنت مستشار مالي شخصي ودود بتتكلم بالعامية المصرية. هتاخد بيانات مالية حقيقية لشخص في مصر بصيغة JSON (المبالغ بالجنيه المصري).
+القواعد:
+- استخدم أرقامه الفعلية وسمّي الفئات والأقساط بأساميها. خليك عملي ومحدد بالأرقام.
+- الرد مختصر: من 150 لـ 250 كلمة. استخدم عناوين قصيرة تبدأ بـ ### ونقط تبدأ بـ - وممكن تبرز أرقام بـ **.
+- لو البيانات قليلة (مفيش دخل أو مصاريف قليلة) قول كده بوضوح واطلب منه يسجّل أكتر، واديله نصايح عامة.
+- في الاستثمار: اتكلم عن أنواع عامة بس، من غير ما ترشّح بنك أو صندوق أو سهم معين، ومن غير ما تذكر أسعار فايدة أو عوائد بأرقام لأنها بتتغير. قول إن الصندوق الطوارئ والأقساط ليهم أولوية. واختم بسطر إن دي معلومات عامة مش نصيحة استثمارية مرخصة، وإنه يراجع العوائد الحالية ويستشير مختص قبل أي قرار.
+- متخترعش أرقام مش موجودة في البيانات.`;
+  const input=[{role:"user",content:`${sys}\n\nالبيانات:\n${JSON.stringify(financeSummary())}\n\nالطلب: ${PROMPTS[kind]}`}];
+  AI.ctrl=new AbortController();
+  try{
+    const r=await AI.sample(input,{signal:AI.ctrl.signal,modelTier:"default",cache:false,onText:({text})=>{AI.out=text;const el=document.getElementById("aiOut");if(el)el.innerHTML=mdLite(text)}});
+    AI.out=r.text;
+  }catch(e){
+    if(e&&e.code==="not_granted")AI.out="⚠️ محتاج توافق على استخدام المساعد من رسالة الإذن اللي ظهرت. جرّب تاني ووافق.";
+    else if(e&&e.code==="rate_limited")AI.out="⚠️ طلبات كتير ورا بعض. استنى دقيقة وجرّب تاني.";
+    else if(e&&e.name==="AbortError")AI.out="";
+    else AI.out=(e&&e.text)||"⚠️ المساعد مش متاح دلوقتي. جرّب كمان شوية.";
+  }
+  AI.busy=false;render();
+}
+function mdLite(t){
+  const lines=esc(t).split(/\n/);let h="",inUl=false;
+  const inl=x=>x.replace(/\*\*(.+?)\*\*/g,"<b>$1</b>");
+  for(const ln of lines){const l=ln.trim();
+    if(/^[-•*]\s+/.test(l)){if(!inUl){h+="<ul>";inUl=true}h+=`<li>${inl(l.replace(/^[-•*]\s+/,""))}</li>`;continue}
+    if(inUl){h+="</ul>";inUl=false}
+    if(/^#{1,4}\s+/.test(l))h+=`<h4>${inl(l.replace(/^#{1,4}\s+/,""))}</h4>`;else if(l)h+=`<p>${inl(l)}</p>`}
+  if(inUl)h+="</ul>";return h;
+}
+function advisorBlock(){
+  loadSample();
+  if(AI.checked&&!AI.sample)return"";
+  const asks=[["plan","خطة للمرتب","توزيع الدخل على الفئات مقابل صرفك الفعلي"],["month","مراجعة الشهر ده","ماشي كويس؟ وتعمل إيه لباقي الشهر"],["save","أوفّر منين؟","أكبر 5 أماكن توفّر فيها بالأرقام"],["invest","أبدأ أستثمر إزاي؟","صندوق طوارئ وأنواع استثمار عامة"]];
+  return`<section><h2>مستشارك المالي<small>بالذكاء الاصطناعي</small></h2><div class="adv">
+  <div class="asks">${asks.map(([k,t,d])=>`<button class="ask" type="button" data-act="ai" data-k="${k}" ${AI.busy||!AI.sample?"disabled":""}><span>${t}<small>${d}</small></span></button>`).join("")}</div>
+  ${AI.busy||AI.out?`<div class="out" id="aiOut" aria-live="polite">${AI.out?mdLite(AI.out):"بيحلّل أرقامك…"}</div>`:""}
+  ${AI.busy?`<button class="btn ghost" type="button" data-act="aiStop">إيقاف</button>`:""}
+  <p class="note">المستشار بيشوف ملخص أرقامك بس (الإجماليات والفئات والأقساط) وقت ما تطلب. النصايح عامة ومش بديل عن مستشار مالي مرخص.</p>
+  </div></section>`;
+}
+
 /* ---------- sheets ---------- */
 const host=document.getElementById("sheetHost");
 function openSheet(html,onMount){host.innerHTML=`<div class="scrim" data-act="closeScrim"><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`;onMount&&onMount(host.querySelector(".sheet"));const f=host.querySelector("[autofocus]");f&&setTimeout(()=>f.focus(),60)}
@@ -465,6 +706,9 @@ document.addEventListener("click",async ev=>{
   const act=el.dataset.act,id=el.dataset.id;
   if(act==="closeScrim"&&ev.target!==el)return;
   switch(act){
+    case"yprev":S.ay--;render();break;
+    case"ynext":S.ay++;render();break;
+    case"gomonth":S.ym=el.dataset.ym;S.tab="month";render();window.scrollTo(0,0);break;
     case"mprev":S.ym=addM(S.ym,-1);render();break;
     case"mnext":S.ym=addM(S.ym,1);render();break;
     case"close":case"closeScrim":closeSheet();break;
@@ -504,6 +748,8 @@ document.addEventListener("click",async ev=>{
       const s={income:draft.income,cats:cats.length?cats:DEFAULT_CATS,pays:draft.pays.filter(Boolean)};
       el.disabled=true;await api.saveSettings(s);draft=null;render();toast("اتحفظت الإعدادات");break}
     case"export":exportCsv();break;
+    case"ai":askAI(el.dataset.k);break;
+    case"aiStop":AI.ctrl&&AI.ctrl.abort();break;
     case"backup":backup();break;
   }
 });
