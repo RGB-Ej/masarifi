@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#1C6B4A">
+<meta name="theme-color" content="#0A1120">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="مصاريفي">
@@ -18,23 +18,15 @@
 <style>
 /* Layout: one-column phone ledger — month hero up top, sections below, fixed bottom tab bar and a floating add button. */
 :root{
-  --bg:#F3F5F2; --surface:#FFFFFF; --sunk:#E8ECE7; --line:#D6DDD5;
-  --fg:#18231D; --muted:#5E6B63; --accent:#1C6B4A; --accent-ink:#FFFFFF; --accent-soft:#DCEDE3;
-  --fixed:#6A4C93; --fixed-soft:#E9E2F3; --warn:#B26B00; --warn-soft:#FBEBD2; --bad:#B3261E; --bad-soft:#F8DEDB;
-  --shadow:0 6px 24px rgba(20,40,30,.10);
+  --bg:#F4F6FA; --surface:#FFFFFF; --sunk:#EDF0F6; --line:#DDE2EC; --hero:#13203A;
+  --fg:#13203A; --muted:#5E6984; --accent:#B07F1E; --accent-ink:#FFFFFF; --accent-soft:#FBF3E1;
+  --primary:#13203A; --primary-ink:#FFFFFF;
+  --good:#1E9E72; --fixed:#4F6BD8; --fixed-soft:#E6EBFB; --warn:#B26B00; --warn-soft:#FDF0D8; --bad:#C8352B; --bad-soft:#FBE3E0;
+  --shadow:0 6px 20px rgba(19,32,58,.10);
   --f-display:"Alexandria","IBM Plex Sans Arabic",Tahoma,sans-serif;
   --f-body:"IBM Plex Sans Arabic",Tahoma,"Segoe UI",sans-serif;
+  color-scheme:light;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#0F1512; --surface:#18201C; --sunk:#202A25; --line:#2E3A33;
-  --fg:#E7EEE9; --muted:#9AA9A0; --accent:#4FB98A; --accent-ink:#06140D; --accent-soft:#1D3529;
-  --fixed:#B99BE0; --fixed-soft:#2C2438; --warn:#E6A644; --warn-soft:#3A2C14; --bad:#F2867D; --bad-soft:#3D1D1A;
-  --shadow:0 6px 24px rgba(0,0,0,.4); color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#0F1512; --surface:#18201C; --sunk:#202A25; --line:#2E3A33;
-  --fg:#E7EEE9; --muted:#9AA9A0; --accent:#4FB98A; --accent-ink:#06140D; --accent-soft:#1D3529;
-  --fixed:#B99BE0; --fixed-soft:#2C2438; --warn:#E6A644; --warn-soft:#3A2C14; --bad:#F2867D; --bad-soft:#3D1D1A;
-  --shadow:0 6px 24px rgba(0,0,0,.4); color-scheme:dark}
 *{box-sizing:border-box}
 html,body{background:var(--bg);color:var(--fg)}
 body{font-family:var(--f-body);font-size:15px;line-height:1.55;direction:rtl;
@@ -46,7 +38,7 @@ header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background
   display:flex;align-items:center;justify-content:space-between;gap:12px}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
 .brand{font-family:var(--f-display);font-weight:800;font-size:22px;letter-spacing:-.2px;display:flex;align-items:center;gap:10px}
-.brand svg{width:40px;height:40px;flex:none;border-radius:11px}
+.brand svg{width:42px;height:42px;flex:none;border-radius:12px;box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 35%,transparent)}
 .brand small{display:block;font-family:var(--f-body);font-weight:500;font-size:12px;color:var(--muted)}
 .mswitch{display:flex;align-items:center;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px}
 .mswitch button{border:0;background:none;color:var(--fg);width:34px;height:34px;border-radius:50%;font-size:18px;cursor:pointer}
@@ -55,21 +47,25 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 button{font-family:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
+.gear{width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--fg);display:grid;place-items:center;cursor:pointer}
+.gear svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round}
+.gear[aria-current="page"]{border-color:var(--primary);background:var(--primary);color:#FFFFFF}
+.morebtn{border:0;background:none;color:var(--fixed);font-weight:600;padding:12px 14px;width:100%;cursor:pointer;border-top:1px solid var(--line);font-size:14px}
 /* hero */
-.hero{background:var(--accent);color:var(--accent-ink);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow)}
-.hero .lbl{font-size:13px;opacity:.85}
-.hero .big{font-family:var(--f-display);font-weight:800;font-size:clamp(34px,10vw,44px);line-height:1.1}
+.hero{background:radial-gradient(120% 140% at 100% 0%,#22355E 0%,#13203A 60%);color:#FFFFFF;border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);border-radius:22px;padding:22px 20px;display:flex;flex-direction:column;gap:16px;box-shadow:var(--shadow)}
+.hero .lbl{font-size:14px;color:#B9C3DA}
+.hero .big{font-family:var(--f-display);font-weight:800;font-size:clamp(34px,10vw,46px);line-height:1.1;color:#E8C06A}
 .hero .big .cur{font-size:.42em;font-weight:500;margin-inline-start:6px;opacity:.85}
-.stack{height:10px;border-radius:99px;background:color-mix(in srgb,var(--accent-ink) 22%,transparent);display:flex;overflow:hidden}
+.stack{height:10px;border-radius:99px;background:#2A3A5E;display:flex;overflow:hidden;gap:2px}
 .stack i{display:block;height:100%}
-.stack .f{background:var(--accent-ink);opacity:.95}
-.stack .v{background:var(--accent-ink);opacity:.55}
+.stack .f{background:#8FA6FF}
+.stack .v{background:#E8C06A}
 .trio{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .trio div{display:flex;flex-direction:column;gap:2px;min-width:0}
 .trio b{font-family:var(--f-display);font-weight:700;font-size:16px;overflow-wrap:anywhere}
-.trio span{font-size:12px;opacity:.85}
-.hero .setinc{align-self:flex-start;border:1px solid color-mix(in srgb,var(--accent-ink) 45%,transparent);background:none;color:inherit;border-radius:999px;padding:6px 14px;cursor:pointer;font-weight:600}
-.hero.neg{background:var(--bad);}
+.trio span{font-size:12.5px;color:#B9C3DA}
+.hero .setinc{align-self:flex-start;border:1px solid #E8C06A;background:none;color:#FFFFFF;border-radius:999px;padding:6px 14px;cursor:pointer;font-weight:600}
+.hero.neg .big{color:#FF8A80}
 
 .alert{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:14px;background:var(--warn-soft);color:var(--fg);font-size:14px}
 .alert b{color:var(--warn)}
@@ -93,6 +89,14 @@ button.row:hover{background:var(--sunk)}
 .bud .hd{display:flex;align-items:center;gap:8px;font-size:14px}
 .bud .hd .nm{flex:1;min-width:0;font-weight:600}
 .bud .hd .v{font-size:13px;color:var(--muted);white-space:nowrap}
+.bud .remwrap{display:flex;align-items:baseline;gap:6px;white-space:nowrap}
+.bud .remwrap small{font-size:12px;color:var(--muted)}
+.bud .rem{font-family:var(--f-display);font-weight:700;font-size:17px;color:var(--good)}
+.bud .rem.warn{color:var(--warn)} .bud .rem.over{color:var(--bad)}
+.bud .rembar i{background:var(--good);transition:width .4s ease}
+.bud .rembar.warn i{background:var(--warn)} .bud .rembar.over i{background:var(--bad)}
+.bud .sub{font-size:12.5px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.bud .rembar i{transition:none}}
 .bar{height:8px;border-radius:99px;background:var(--sunk);overflow:hidden}
 .bar i{display:block;height:100%;border-radius:99px;background:var(--accent)}
 .bar.warn i{background:var(--warn)} .bar.over i{background:var(--bad)}
@@ -103,7 +107,7 @@ button.row:hover{background:var(--sunk)}
 .day{font-size:12.5px;color:var(--muted);font-weight:600;padding:14px 4px 6px;display:flex;justify-content:space-between}
 .empty{background:var(--surface);border:1px dashed var(--line);border-radius:16px;padding:26px 18px;text-align:center;color:var(--muted);display:flex;flex-direction:column;gap:10px;align-items:center}
 .empty b{color:var(--fg);font-family:var(--f-display);font-size:16px}
-.btn{border:0;border-radius:12px;padding:12px 18px;font-weight:600;font-size:15px;cursor:pointer;background:var(--accent);color:var(--accent-ink)}
+.btn{border:0;border-radius:12px;padding:13px 18px;font-weight:600;font-size:15.5px;cursor:pointer;background:var(--primary);color:var(--primary-ink)}
 .btn.ghost{background:var(--sunk);color:var(--fg)}
 .btn.danger{background:var(--bad-soft);color:var(--bad)}
 .btn.danger.armed{background:var(--bad);color:#fff}
@@ -133,8 +137,8 @@ button.row:hover{background:var(--sunk)}
 .kpi span{font-size:12.5px;color:var(--muted)}
 .kpi b{font-family:var(--f-display);font-size:19px;font-weight:700;overflow-wrap:anywhere}
 .kpi small{font-size:12px;color:var(--muted)}
-.kpi.hl{background:var(--accent-soft);border-color:transparent}
-.kpi .up{color:var(--bad)} .kpi .down{color:var(--accent)}
+.kpi.hl{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 40%,transparent)}.kpi.hl b{color:var(--accent)}
+.kpi .up{color:var(--bad)} .kpi .down{color:var(--good)}
 .chartbox{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 10px 8px}
 .chartbox svg{display:block;width:100%;height:auto;overflow:visible}
 .chartbox .grid{stroke:var(--line);stroke-width:1}
@@ -187,10 +191,10 @@ nav.tabs{position:fixed;inset:auto 0 0 0;z-index:20;background:var(--surface);bo
 nav.tabs .in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
 nav.tabs button{border:0;background:none;color:var(--muted);padding:10px 2px 9px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px;font-weight:600;cursor:pointer}
 nav.tabs button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-nav.tabs button[aria-current="page"]{color:var(--accent)}
+nav.tabs button[aria-current="page"]{color:var(--primary)}nav.tabs button[aria-current="page"] svg{stroke:var(--accent)}
 .fab{position:fixed;z-index:21;left:max(18px,calc(env(safe-area-inset-left,0px) + 18px));bottom:calc(78px + env(safe-area-inset-bottom,0px));
-  width:58px;height:58px;border-radius:18px;border:0;background:var(--accent);color:var(--accent-ink);box-shadow:var(--shadow);cursor:pointer;display:grid;place-items:center}
-.fab svg{width:26px;height:26px;stroke:currentColor;stroke-width:2.4;fill:none;stroke-linecap:round}
+  width:58px;height:58px;border-radius:18px;border:0;background:var(--primary);color:#FFFFFF;box-shadow:0 8px 24px rgba(19,32,58,.28);cursor:pointer;display:grid;place-items:center}
+.fab svg{width:26px;height:26px;stroke:#E8C06A;stroke-width:2.4;fill:none;stroke-linecap:round}
 
 /* sheet */
 .scrim{position:fixed;inset:0;z-index:40;background:rgba(10,20,15,.45);display:flex;align-items:flex-end;justify-content:center}
@@ -229,7 +233,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);outline:none;
 
 <div class="wrap" id="app">
   <header class="top">
-    <div class="brand"><svg viewBox="0 0 512 512" aria-hidden="true"><rect width="512" height="512" rx="112" fill="#1C6B4A"/><circle cx="318" cy="150" r="62" fill="#F2C14E"/><circle cx="318" cy="150" r="40" fill="none" stroke="#C9952A" stroke-width="10"/><rect x="96" y="176" width="320" height="220" rx="40" fill="#FFFFFF"/><path d="M96 236h320" stroke="#DCEDE3" stroke-width="14"/><rect x="300" y="262" width="140" height="78" rx="26" fill="#DCEDE3"/><circle cx="340" cy="301" r="15" fill="#1C6B4A"/></svg><div>مصاريفي<small id="modeNote">جاري التحميل…</small></div></div>
+    <div class="brand"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="24" fill="#13203A"/><circle cx="50" cy="50" r="30" fill="none" stroke="#24324F" stroke-width="12"/><circle cx="50" cy="50" r="30" fill="none" stroke="#3CC79A" stroke-width="12" stroke-dasharray="120 68.5" transform="rotate(-90 50 50)"/><circle cx="50" cy="50" r="30" fill="none" stroke="#D9AE52" stroke-width="12" stroke-dasharray="36 152.5" stroke-dashoffset="-126" transform="rotate(-90 50 50)"/><path d="M40 58 L48 50 L53 55 L61 44" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div><span style="font-family:var(--f-display)">مصاريفي</span><small id="modeNote">جاري التحميل…</small></div></div>
     <div class="mswitch" aria-label="اختيار الشهر">
       <button type="button" data-act="mprev" aria-label="الشهر اللي فات">›</button>
       <span id="mlabel" class="num"></span>
@@ -267,6 +271,16 @@ const pad=n=>String(n).padStart(2,"0");
 const now=new Date();
 const TODAY=`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
 const THIS_YM=TODAY.slice(0,7);
+const SD=()=>Math.min(28,Math.max(1,Math.round(Number(S.settings.startDay)||1)));
+const pStart=ym=>`${ym}-${pad(SD())}`;
+const pEnd=ym=>`${addM(ym,1)}-${pad(SD())}`;
+const inP=(d,ym)=>!!d&&d>=pStart(ym)&&d<pEnd(ym);
+const periodOf=d=>{const ym=d.slice(0,7);return Number(d.slice(8,10))>=SD()?ym:addM(ym,-1)};
+const CUR=()=>periodOf(TODAY);
+const dayDiff=(a,b)=>{const[ay,am,ad]=a.split("-").map(Number),[by,bm,bd]=b.split("-").map(Number);return Math.round((new Date(by,bm-1,bd)-new Date(ay,am-1,ad))/864e5)};
+const pLen=ym=>dayDiff(pStart(ym),pEnd(ym));
+const pElapsed=ym=>Math.min(pLen(ym),Math.max(1,dayDiff(pStart(ym),TODAY)+1));
+const pRangeText=ym=>{const[y,m]=ym.split("-").map(Number);const e=new Date(y,m,SD()-1);return`من ${SD()} ${MONTHS[m-1]} لـ ${e.getDate()} ${MONTHS[e.getMonth()]}`};
 const addM=(ym,n)=>{let[y,m]=ym.split("-").map(Number);m+=n;y+=Math.floor((m-1)/12);m=((m-1)%12+12)%12+1;return`${y}-${pad(m)}`};
 const diffM=(a,b)=>{const[ay,am]=a.split("-").map(Number),[by,bm]=b.split("-").map(Number);return(by-ay)*12+(bm-am)};
 const ymLabel=ym=>{const[y,m]=ym.split("-").map(Number);return`${MONTHS[m-1]} ${y}`};
@@ -277,7 +291,7 @@ const hueOf=s=>{let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))%360;re
 const catColor=name=>`hsl(${hueOf(name)} 48% 50%)`;
 const dayLabel=d=>{const[y,m,dd]=d.split("-").map(Number);const w=new Date(y,m-1,dd).toLocaleDateString("ar-EG",{weekday:"long"});return`${w} ${dd} ${MONTHS[m-1]}`};
 
-const S={tab:"month",ym:THIS_YM,settings:{income:0,cats:DEFAULT_CATS,pays:DEFAULT_PAYS},expenses:[],fixed:[],mode:"loading",settingsLoaded:false};
+const S={tab:"month",ym:THIS_YM,settings:{income:0,startDay:1,cats:DEFAULT_CATS,pays:DEFAULT_PAYS},expenses:[],fixed:[],mode:"loading",settingsLoaded:false};
 try{const t=localStorage.getItem("masarif.tab");if(t)S.tab=t}catch(e){}
 
 /* ---------- storage ---------- */
@@ -300,11 +314,11 @@ function dbApi(root){
   const enqueue=f=>new Promise(res=>{q.push(async()=>{await f();res()});run()});
   return{
     start(){
-      root.onSnapshot(s=>{if(s.exists){const d=s.data();S.settings={income:Number(d.income)||0,cats:Array.isArray(d.cats)&&d.cats.length?d.cats:DEFAULT_CATS,pays:Array.isArray(d.pays)&&d.pays.length?d.pays:DEFAULT_PAYS}}S.settingsLoaded=true;render()},e=>{toast(errMsg(e))});
+      root.onSnapshot(s=>{if(s.exists){const d=s.data();S.settings={income:Number(d.income)||0,startDay:Number(d.startDay)||1,cats:Array.isArray(d.cats)&&d.cats.length?d.cats:DEFAULT_CATS,pays:Array.isArray(d.pays)&&d.pays.length?d.pays:DEFAULT_PAYS}}S.settingsLoaded=true;render()},e=>{toast(errMsg(e))});
       root.collection("expenses").onSnapshot(s=>{S.expenses=s.docs.map(d=>({...d.data(),id:d.id}));render()},e=>toast(errMsg(e)));
       root.collection("fixed").onSnapshot(s=>{S.fixed=s.docs.map(d=>({...d.data(),id:d.id}));render()},e=>toast(errMsg(e)));
     },
-    saveSettings(s){return enqueue(()=>root.set({income:s.income,cats:s.cats,pays:s.pays}))},
+    saveSettings(s){return enqueue(()=>root.set({income:s.income,startDay:s.startDay||1,cats:s.cats,pays:s.pays}))},
     put(kind,id,data){const col=root.collection(kind);const ref=id?col.doc(id):col.doc();const body={...data};delete body.id;return enqueue(()=>ref.set(body))},
     del(kind,id){return enqueue(()=>root.collection(kind).doc(id).delete())}
   };
@@ -325,7 +339,7 @@ async function init(){
 /* ---------- derived ---------- */
 const fixedActive=(f,ym)=>f.start&&f.start<=ym&&(!f.end||f.end>=ym);
 function monthData(ym){
-  const ex=S.expenses.filter(e=>(e.date||"").slice(0,7)===ym);
+  const ex=S.expenses.filter(e=>inP(e.date,ym));
   const variable=ex.reduce((a,e)=>a+(Number(e.amount)||0),0);
   const fx=S.fixed.filter(f=>fixedActive(f,ym));
   const fixed=fx.reduce((a,f)=>a+(Number(f.amount)||0),0);
@@ -348,10 +362,12 @@ const daysUntil=d=>{const[y,m,dd]=d.split("-").map(Number);return Math.round((ne
 
 /* ---------- render ---------- */
 function render(){
+  if(S.settingsLoaded&&!S.ymTouched)S.ym=CUR();
   document.getElementById("mlabel").textContent=ymLabel(S.ym);
   document.getElementById("modeNote").textContent=S.mode==="cloud"?"محفوظ في حسابك":S.mode==="local"?"محفوظ على الجهاز ده بس":"جاري التحميل…";
   document.querySelectorAll("nav.tabs button").forEach(b=>b.toggleAttribute("aria-current",false)||b.dataset.tab===S.tab&&b.setAttribute("aria-current","page"));
   const v=document.getElementById("view");
+  if(!["month","list","fixed","analytics","settings"].includes(S.tab))S.tab="month";
   v.innerHTML=S.tab==="analytics"?viewAnalytics():S.tab==="list"?viewList():S.tab==="fixed"?viewFixed():S.tab==="settings"?viewSettings():viewMonth();
   document.querySelector(".fab").hidden=S.tab==="settings"||S.tab==="analytics";
   document.querySelector(".mswitch").style.visibility=(S.tab==="fixed"||S.tab==="settings"||S.tab==="analytics")?"hidden":"visible";
@@ -363,29 +379,34 @@ function viewMonth(){
   const ratio=d.income?d.fixed/d.income:0;
   let h=`<div class="hero ${d.income&&left<0?"neg":""}">`;
   if(d.income){
-    h+=`<div><div class="lbl">اللي فاضل من الدخل — ${ymLabel(S.ym)}</div><div class="big num">${fmt(left)}<span class="cur">ج.م</span></div></div>
+    h+=`<div><div class="lbl">اللي فاضل من الدخل — ${ymLabel(S.ym)}${SD()>1?`<br><span style="font-size:12.5px">${pRangeText(S.ym)}</span>`:""}</div><div class="big num">${fmt(left)}<span class="cur">ج.م</span></div></div>
     <div class="stack" role="img" aria-label="توزيع الدخل"><i class="f" style="width:${fp}%"></i><i class="v" style="width:${vp}%"></i></div>`;
   }else{
     h+=`<div><div class="lbl">إجمالي المصروف — ${ymLabel(S.ym)}</div><div class="big num">${fmt(spent)}<span class="cur">ج.م</span></div></div>
     <button class="setinc" type="button" data-act="goSettings">اكتب دخلك الشهري عشان نحسب اللي فاضل</button>`;
   }
   h+=`<div class="trio num"><div><span>الدخل</span><b>${fmt(d.income)}</b></div><div><span>التزامات ثابتة</span><b>${fmt(d.fixed)}</b></div><div><span>مصاريف متغيرة</span><b>${fmt(d.variable)}</b></div></div></div>`;
-  if(S.ym===THIS_YM)h+=alertsBlock(d);
+  if(S.ym===CUR())h+=alertsBlock(d);
 
-  if(S.ym===THIS_YM){
+  if(S.ym===CUR()){
     const soon=S.fixed.map(f=>({f,i:fixedInfo(f)})).filter(x=>x.i.next&&daysUntil(x.i.next)>=0&&daysUntil(x.i.next)<=10).sort((a,b)=>a.i.next.localeCompare(b.i.next));
     if(soon.length){h+=`<section><h2>مستحق قريب<small>خلال 10 أيام</small></h2><div class="panel">`+soon.map(({f,i})=>{const n=daysUntil(i.next);
       return`<button class="row" type="button" data-act="editFixed" data-id="${esc(f.id)}"><span class="dot" style="background:var(--fixed)"></span><span class="main"><span class="t">${esc(f.name)}</span><span class="s">${n===0?"النهارده":n===1?"بكره":`بعد ${n} أيام`} · ${dayLabel(i.next)}</span></span><span class="amt num">${money(f.amount)}</span></button>`}).join("")+`</div></section>`}
   }
 
+
   const cats=S.settings.cats.filter(c=>Number(c.budget)>0||d.byCat[c.name]);
   const extra=Object.keys(d.byCat).filter(k=>!S.settings.cats.some(c=>c.name===k)).map(k=>({name:k,budget:0}));
   const all=[...cats,...extra].sort((a,b)=>(d.byCat[b.name]||0)-(d.byCat[a.name]||0));
-  h+=`<section><h2>الميزانيات<small class="num">${money(d.variable)} من ${money(S.settings.cats.reduce((a,c)=>a+(Number(c.budget)||0),0))}</small></h2><div class="panel">`;
-  h+=all.map(c=>{const sp=d.byCat[c.name]||0,b=Number(c.budget)||0,p=b?sp/b:(sp?1.01:0);
-    const cls=p>1?"over":p>=.8?"warn":"";
-    const tag=p>1?`<span class="tag over">عدّيت بـ ${fmt(sp-b)}</span>`:p>=.8?`<span class="tag warn">قرّبت تخلص</span>`:"";
-    return`<div class="bud"><div class="hd"><span class="dot" style="background:${catColor(c.name)}"></span><span class="nm">${esc(c.name)}</span>${tag}<span class="v num">${fmt(sp)} / ${fmt(b)}</span></div><div class="bar ${cls}"><i style="width:${Math.min(100,p*100)}%"></i></div></div>`}).join("")||`<div class="empty">مفيش ميزانيات لسه</div>`;
+  h+=`<section><h2>الميزانيات<small class="num">متبقي ${money(S.settings.cats.reduce((a,c)=>a+(Number(c.budget)||0),0)-d.variable)} من ${money(S.settings.cats.reduce((a,c)=>a+(Number(c.budget)||0),0))}</small></h2><div class="panel">`;
+  const isCur=S.ym===CUR(),daysLeft=isCur?pLen(S.ym)-pElapsed(S.ym)+1:0;
+  h+=all.map(c=>{const sp=d.byCat[c.name]||0,b=Number(c.budget)||0,rem=b-sp,p=b?sp/b:(sp?1.01:0);
+    const cls=!b||rem<0?"over":rem/b<=.2?"warn":"";
+    const remPct=b?Math.max(0,rem/b*100):0;
+    const big=!b?`<span class="rem over num">${fmt(sp)}</span>`:rem<0?`<span class="rem over num">−${fmt(-rem)}</span>`:`<span class="rem ${cls} num">${fmt(rem)}</span>`;
+    const lbl=!b?"بدون ميزانية":rem<0?"عدّيت الميزانية":"متبقي";
+    const sub=!b?`اتصرف ${fmt(sp)} ج.م`:`اتصرف <span class="num">${fmt(sp)}</span> من <span class="num">${fmt(b)}</span>${isCur&&rem>0&&daysLeft>1?` · <span class="num">${fmt(rem/daysLeft)}</span> في اليوم`:""}`;
+    return`<div class="bud"><div class="hd"><span class="dot" style="background:${catColor(c.name)}"></span><span class="nm">${esc(c.name)}</span><span class="remwrap"><small>${lbl}</small>${big}</span></div><div class="bar rembar ${cls}"><i style="width:${b?(rem<0?100:remPct):100}%"></i></div><div class="sub">${sub}</div></div>`}).join("")||`<div class="empty">مفيش ميزانيات لسه</div>`;
   h+=`</div></section>`;
 
   if(!d.ex.length&&!d.fx.length&&S.settingsLoaded){
@@ -394,6 +415,12 @@ function viewMonth(){
   return h;
 }
 
+function expenseGroups(ex,maxDays){
+  const groups={};for(const e of ex){(groups[e.date]=groups[e.date]||[]).push(e)}
+  return Object.keys(groups).sort().reverse().slice(0,maxDays).map(day=>{const list=groups[day];const tot=list.reduce((a,e)=>a+(Number(e.amount)||0),0);
+    return`<div><div class="day"><span>${dayLabel(day)}</span><span class="num">${money(tot)}</span></div><div class="panel">`+
+    list.map(e=>`<button class="row" type="button" data-act="editExp" data-id="${esc(e.id)}"><span class="dot" style="background:${catColor(e.cat)}"></span><span class="main"><span class="t">${esc(e.item||e.cat)}</span><span class="s">${esc(e.cat)}${e.pay?" · "+esc(e.pay):""}</span></span><span class="amt num">${fmt(e.amount)}</span></button>`).join("")+`</div></div>`}).join("");
+}
 function viewList(){
   const d=monthData(S.ym);
   if(!d.ex.length)return`<div class="empty"><b>مفيش مصروفات متسجلة في ${ymLabel(S.ym)}</b>كل مصروف بتسجله هيظهر هنا متقسم بالأيام.<button class="btn" type="button" data-act="addExp">سجّل مصروف</button></div>`+exportBlock();
@@ -435,6 +462,7 @@ function viewSettings(){
   if(!draft)draft=JSON.parse(JSON.stringify(S.settings));
   const total=draft.cats.reduce((a,c)=>a+(Number(c.budget)||0),0);
   return`<section><h2>الدخل الشهري</h2><div class="field"><input id="s-income" class="num" inputmode="decimal" value="${esc(draft.income||"")}" placeholder="مثلاً 25000" aria-label="الدخل الشهري"></div></section>
+  <section><h2>يوم بداية الشهر عندك</h2><div class="field"><input id="s-start" class="num" inputmode="numeric" value="${esc(draft.startDay||1)}" placeholder="1 – 28" aria-label="يوم بداية الشهر"><p class="hint">اليوم اللي بينزل فيه المرتب. لو كتبت 25، الشهر عندك هيبدأ من يوم 25 لحد يوم 24 اللي بعده، والميزانيات والتقارير هتتحسب على كده.</p></div></section>
   <section><h2>الفئات والميزانية الشهرية<small class="num">الإجمالي ${money(total)}</small></h2><div class="panel">
   ${draft.cats.map((c,i)=>`<div class="setrow"><input id="s-cn-${i}" data-cn="${i}" value="${esc(c.name)}" aria-label="اسم الفئة"><input id="s-cb-${i}" data-cb="${i}" class="num" inputmode="decimal" value="${esc(c.budget)}" aria-label="الميزانية"><button class="x" type="button" data-act="delCat" data-i="${i}" aria-label="حذف الفئة">✕</button></div>`).join("")}
   <button class="linkbtn" type="button" data-act="addCat">+ إضافة فئة</button></div></section>
@@ -449,6 +477,7 @@ function viewSettings(){
 function readDraft(){
   if(!draft)return;
   const inc=document.getElementById("s-income");if(inc)draft.income=Number(String(inc.value).replace(/[^\d.]/g,""))||0;
+  const sd=document.getElementById("s-start");if(sd)draft.startDay=Math.min(28,Math.max(1,Math.round(Number(String(sd.value).replace(/[^\d]/g,""))||1)));
   document.querySelectorAll("[data-cn]").forEach(el=>draft.cats[+el.dataset.cn].name=el.value.trim());
   document.querySelectorAll("[data-cb]").forEach(el=>draft.cats[+el.dataset.cb].budget=Number(String(el.value).replace(/[^\d.]/g,""))||0);
   document.querySelectorAll("[data-p]").forEach(el=>draft.pays[+el.dataset.p]=el.value.trim());
@@ -459,19 +488,19 @@ function readDraft(){
 const MSHORT=["ينا","فبر","مار","أبر","ماي","يون","يول","أغس","سبت","أكت","نوف","ديس"];
 S.ay=Number(THIS_YM.slice(0,4));
 const kfmt=n=>{n=Math.round(n);return Math.abs(n)>=1000?(n/1000).toFixed(Math.abs(n)>=10000?0:1).replace(/\.0$/,"")+"k":String(n)};
-const varOf=ym=>S.expenses.reduce((a,e)=>a+((e.date||"").slice(0,7)===ym?(Number(e.amount)||0):0),0);
+const varOf=ym=>S.expenses.reduce((a,e)=>a+(inP(e.date,ym)?(Number(e.amount)||0):0),0);
 const fixedOf=ym=>S.fixed.reduce((a,f)=>a+(fixedActive(f,ym)?(Number(f.amount)||0):0),0);
 function avgVariable(){
-  const past=[];for(let k=1;k<=12&&past.length<3;k++){const ym=addM(THIS_YM,-k);const v=varOf(ym);if(v>0)past.push(v)}
+  const past=[];for(let k=1;k<=12&&past.length<3;k++){const ym=addM(CUR(),-k);const v=varOf(ym);if(v>0)past.push(v)}
   if(past.length)return{v:past.reduce((a,b)=>a+b,0)/past.length,basis:`متوسط آخر ${past.length===1?"شهر":past.length===2?"شهرين":"3 شهور"}`};
-  const cur=varOf(THIS_YM);const dom=now.getDate(),dim=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+  const cur=varOf(CUR());const dom=pElapsed(CUR()),dim=pLen(CUR());
   if(cur>0)return{v:cur/dom*dim,basis:"على أساس صرف الشهر ده"};
   const b=S.settings.cats.reduce((a,c)=>a+(Number(c.budget)||0),0);
   return{v:b,basis:"على أساس الميزانيات"};
 }
 function viewAnalytics(){
   const Y=S.ay,inc=Number(S.settings.income)||0,avg=avgVariable();
-  const months=[];for(let m=1;m<=12;m++){const ym=`${Y}-${pad(m)}`;const fut=ym>THIS_YM;const f=fixedOf(ym);const v=fut?avg.v:varOf(ym);months.push({ym,m,fut,cur:ym===THIS_YM,f,v,t:f+v})}
+  const months=[];for(let m=1;m<=12;m++){const ym=`${Y}-${pad(m)}`;const fut=ym>CUR();const f=fixedOf(ym);const v=fut?avg.v:varOf(ym);months.push({ym,m,fut,cur:ym===CUR(),f,v,t:f+v})}
   const actual=months.filter(x=>!x.fut),proj=months.filter(x=>x.fut);
   const spent=actual.reduce((a,x)=>a+x.t,0);
   const withData=actual.filter(x=>x.t>0);
@@ -512,24 +541,24 @@ function barChart(months,inc){
   <div class="legend"><span><i style="background:var(--fixed)"></i>التزامات ثابتة</span><span><i style="background:var(--accent)"></i>مصاريف متغيرة</span><span><i style="background:var(--muted);opacity:.35"></i>متوقع</span>${inc?`<span><i style="background:var(--warn)"></i>الدخل</span>`:""}</div></div>`;
 }
 function compareBlock(){
-  const a=THIS_YM,b=addM(THIS_YM,-1);
+  const a=CUR(),b=addM(CUR(),-1);
   const ta=varOf(a)+fixedOf(a),tb=varOf(b)+fixedOf(b);
   if(!ta&&!tb)return"";
-  const dom=now.getDate(),dim=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+  const dom=pElapsed(a),dim=pLen(a);
   const pace=varOf(a)/dom*dim+fixedOf(a);
   const diff=tb?(pace-tb)/tb:null;
   const catsA={},catsB={};
-  S.expenses.forEach(e=>{const ym=(e.date||"").slice(0,7);const v=Number(e.amount)||0;if(ym===a)catsA[e.cat]=(catsA[e.cat]||0)+v;if(ym===b)catsB[e.cat]=(catsB[e.cat]||0)+v});
+  S.expenses.forEach(e=>{const v=Number(e.amount)||0;if(inP(e.date,a))catsA[e.cat]=(catsA[e.cat]||0)+v;if(inP(e.date,b))catsB[e.cat]=(catsB[e.cat]||0)+v});
   const ch=[...new Set([...Object.keys(catsA),...Object.keys(catsB)])].map(c=>({c,d:(catsA[c]||0)-(catsB[c]||0)})).filter(x=>x.d).sort((x,y)=>Math.abs(y.d)-Math.abs(x.d)).slice(0,3);
   return`<section><h2>الشهر ده مقابل اللي فات</h2><div class="kpis num">
   <div class="kpi"><span>${ymLabel(a)} لحد النهارده</span><b>${money(ta)}</b><small>بالمعدل ده هيوصل ${money(pace)}</small></div>
   <div class="kpi"><span>${ymLabel(b)}</span><b>${money(tb)}</b><small>${diff==null?"":`<span class="${diff>0?"up":"down"}">${diff>0?"▲ أعلى":"▼ أقل"} ${Math.abs(Math.round(diff*100))}%</span> متوقع`}</small></div></div>
-  ${ch.length?`<div class="panel" style="margin-top:10px">${ch.map(x=>`<div class="row" style="cursor:default"><span class="dot" style="background:${catColor(x.c)}"></span><span class="main"><span class="t">${esc(x.c)}</span></span><span class="amt num" style="color:${x.d>0?"var(--bad)":"var(--accent)"}">${x.d>0?"+":"−"}${fmt(Math.abs(x.d))}</span></div>`).join("")}</div>`:""}</section>`;
+  ${ch.length?`<div class="panel" style="margin-top:10px">${ch.map(x=>`<div class="row" style="cursor:default"><span class="dot" style="background:${catColor(x.c)}"></span><span class="main"><span class="t">${esc(x.c)}</span></span><span class="amt num" style="color:${x.d>0?"var(--bad)":"var(--good)"}">${x.d>0?"+":"−"}${fmt(Math.abs(x.d))}</span></div>`).join("")}</div>`:""}</section>`;
 }
 function categoryBlock(Y){
   const by={};let tot=0;
   S.expenses.forEach(e=>{if((e.date||"").slice(0,4)===String(Y)){const v=Number(e.amount)||0;by[e.cat]=(by[e.cat]||0)+v;tot+=v}});
-  let fx=0;for(let m=1;m<=12;m++){const ym=`${Y}-${pad(m)}`;if(ym<=THIS_YM)fx+=fixedOf(ym)}
+  let fx=0;for(let m=1;m<=12;m++){const ym=`${Y}-${pad(m)}`;if(ym<=CUR())fx+=fixedOf(ym)}
   const rows=Object.entries(by).sort((a,b)=>b[1]-a[1]);
   if(fx)rows.unshift(["أقساط والتزامات ثابتة",fx]);
   const all=tot+fx;if(!all)return`<section><h2>الصرف راح فين</h2><div class="empty"><b>مفيش صرف متسجل في ${Y}</b>لما تسجّل مصاريف هتشوف هنا كل فئة أخدت كام من فلوسك.</div></section>`;
@@ -556,7 +585,7 @@ function outlookBlock(){
 /* ---------- alerts ---------- */
 function computeAlerts(d){
   const out=[];const inc=d.income;
-  const dom=now.getDate(),dim=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+  const dom=pElapsed(CUR()),dim=pLen(CUR());
   const pace=d.variable/dom*dim+d.fixed;
   if(inc&&d.fixed+d.variable>inc)out.push({lvl:"bad",t:`صرفت أكتر من دخلك الشهر ده بـ ${money(d.fixed+d.variable-inc)}.`,s:"وقّف أي صرف مش ضروري لحد أول الشهر."});
   else if(inc&&dom>=5&&pace>inc)out.push({lvl:"bad",t:`بالمعدل ده هتصرف ${money(pace)} وده أكتر من دخلك.`,s:`عشان تقفل الشهر في السليم، متعدّيش ${money(Math.max(0,(inc-d.fixed-d.variable)/Math.max(1,dim-dom+1)))} في اليوم لباقي الشهر.`});
@@ -579,8 +608,8 @@ function alertsBlock(d){
 const AI={sample:null,checked:false,busy:false,out:"",kind:"",ctrl:null};
 async function loadSample(){if(AI.checked)return;AI.checked=true;try{AI.sample=window.claude&&typeof window.claude.use==="function"?await window.claude.use("sample"):null}catch(e){AI.sample=null}if(S.tab==="analytics")render()}
 function financeSummary(){
-  const months=[];for(let k=3;k>=0;k--){const ym=addM(THIS_YM,-k);const by={};S.expenses.forEach(e=>{if((e.date||"").slice(0,7)===ym)by[e.cat]=(by[e.cat]||0)+(Number(e.amount)||0)});
-    months.push({month:ym,partial:ym===THIS_YM?`${now.getDate()} يوم من الشهر`:undefined,fixed:fixedOf(ym),variable:varOf(ym),byCategory:by})}
+  const months=[];for(let k=3;k>=0;k--){const ym=addM(CUR(),-k);const by={};S.expenses.forEach(e=>{if(inP(e.date,ym))by[e.cat]=(by[e.cat]||0)+(Number(e.amount)||0)});
+    months.push({month:ym,partial:ym===CUR()?`${pElapsed(ym)} يوم من ${pLen(ym)}`:undefined,period:pRangeText(ym),fixed:fixedOf(ym),variable:varOf(ym),byCategory:by})}
   return{currency:"EGP",today:TODAY,monthlyIncome:Number(S.settings.income)||0,
     budgets:S.settings.cats.filter(c=>Number(c.budget)>0).map(c=>({category:c.name,monthlyBudget:Number(c.budget)})),
     fixedCommitments:S.fixed.map(f=>{const i=fixedInfo(f);return{name:f.name,type:f.type,monthly:Number(f.amount)||0,lastMonth:f.end||"مستمر",monthsLeft:i.left,remainingTotal:i.remainingAmt,ended:!!i.ended}}),
@@ -709,8 +738,8 @@ document.addEventListener("click",async ev=>{
     case"yprev":S.ay--;render();break;
     case"ynext":S.ay++;render();break;
     case"gomonth":S.ym=el.dataset.ym;S.tab="month";render();window.scrollTo(0,0);break;
-    case"mprev":S.ym=addM(S.ym,-1);render();break;
-    case"mnext":S.ym=addM(S.ym,1);render();break;
+    case"mprev":S.ymTouched=true;S.ym=addM(S.ym,-1);render();break;
+    case"mnext":S.ymTouched=true;S.ym=addM(S.ym,1);render();break;
     case"close":case"closeScrim":closeSheet();break;
     case"goSettings":S.tab="settings";render();break;
     case"addExp":if(!api)return;expSheet();break;
@@ -723,7 +752,7 @@ document.addEventListener("click",async ev=>{
       if(!amount){err.textContent="اكتب المبلغ.";return} if(!cat){err.textContent="اختار الفئة.";return} if(!date){err.textContent="اختار التاريخ.";return}
       el.disabled=true;
       await api.put("expenses",id||null,{amount,cat,date,item:val("e-item").trim(),note:val("e-note").trim(),pay:picked("pay")});
-      closeSheet();if(date.slice(0,7)!==S.ym){S.ym=date.slice(0,7);render()}toast(id?"اتحفظ":"اتسجّل المصروف");break}
+      closeSheet();{const pp=periodOf(date);if(pp!==S.ym){S.ym=pp;render()}}toast(id?"اتحفظ":"اتسجّل المصروف");break}
     case"saveFixed":{
       const name=val("f-name").trim(),amount=numv("f-amt"),day=Math.round(numv("f-day")),start=val("f-start"),end=val("f-end");
       const err=document.getElementById("f-err");
@@ -745,9 +774,11 @@ document.addEventListener("click",async ev=>{
       readDraft();
       const cats=draft.cats.filter(c=>c.name);const names=new Set();
       for(const c of cats){if(names.has(c.name)){toast(`الفئة «${c.name}» مكررة`);return}names.add(c.name)}
-      const s={income:draft.income,cats:cats.length?cats:DEFAULT_CATS,pays:draft.pays.filter(Boolean)};
+      const s={income:draft.income,startDay:draft.startDay||1,cats:cats.length?cats:DEFAULT_CATS,pays:draft.pays.filter(Boolean)};
       el.disabled=true;await api.saveSettings(s);draft=null;render();toast("اتحفظت الإعدادات");break}
     case"export":exportCsv();break;
+    case"toggleBud":S.showAllBud=!S.showAllBud;render();break;
+    case"toggleExp":S.showAllExp=!S.showAllExp;render();break;
     case"ai":askAI(el.dataset.k);break;
     case"aiStop":AI.ctrl&&AI.ctrl.abort();break;
     case"backup":backup();break;
