@@ -7,10 +7,9 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="مصاريفي">
-<link rel="manifest" href="manifest.webmanifest?v=2">
-<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png?v=2">
-<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png?v=2">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=2">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
 <title>مصاريفي</title>
 
@@ -52,6 +51,7 @@ button{font-family:inherit}
 .gear svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round}
 .gear[aria-current="page"]{border-color:var(--primary);background:var(--primary);color:#FFFFFF}
 .morebtn{border:0;background:none;color:var(--fixed);font-weight:600;padding:12px 14px;width:100%;cursor:pointer;border-top:1px solid var(--line);font-size:14px}
+html[dir="ltr"] .fab{left:auto;right:max(18px,calc(env(safe-area-inset-right,0px) + 18px))}
 /* hero */
 .hero{background:radial-gradient(120% 140% at 100% 0%,#22355E 0%,#13203A 60%);color:#FFFFFF;border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);border-radius:22px;padding:22px 20px;display:flex;flex-direction:column;gap:16px;box-shadow:var(--shadow)}
 .hero .lbl{font-size:14px;color:#B9C3DA}
@@ -281,18 +281,57 @@ const CUR=()=>periodOf(TODAY);
 const dayDiff=(a,b)=>{const[ay,am,ad]=a.split("-").map(Number),[by,bm,bd]=b.split("-").map(Number);return Math.round((new Date(by,bm-1,bd)-new Date(ay,am-1,ad))/864e5)};
 const pLen=ym=>dayDiff(pStart(ym),pEnd(ym));
 const pElapsed=ym=>Math.min(pLen(ym),Math.max(1,dayDiff(pStart(ym),TODAY)+1));
-const pRangeText=ym=>{const[y,m]=ym.split("-").map(Number);const e=new Date(y,m,SD()-1);return`من ${SD()} ${MONTHS[m-1]} لـ ${e.getDate()} ${MONTHS[e.getMonth()]}`};
+const pRangeText=ym=>{const[y,m]=ym.split("-").map(Number);const e=new Date(y,m,SD()-1);return S.lang==="en"?`${SD()} ${MN()[m-1]} – ${e.getDate()} ${MN()[e.getMonth()]}`:`من ${SD()} ${MN()[m-1]} لـ ${e.getDate()} ${MN()[e.getMonth()]}`};
 const addM=(ym,n)=>{let[y,m]=ym.split("-").map(Number);m+=n;y+=Math.floor((m-1)/12);m=((m-1)%12+12)%12+1;return`${y}-${pad(m)}`};
 const diffM=(a,b)=>{const[ay,am]=a.split("-").map(Number),[by,bm]=b.split("-").map(Number);return(by-ay)*12+(bm-am)};
-const ymLabel=ym=>{const[y,m]=ym.split("-").map(Number);return`${MONTHS[m-1]} ${y}`};
+const ymLabel=ym=>{const[y,m]=ym.split("-").map(Number);return`${MN()[m-1]} ${y}`};
 const fmt=n=>Math.round(Number(n)||0).toLocaleString("en-US");
-const money=n=>`${fmt(n)} ج.م`;
+const money=n=>`${fmt(n)} ${S.lang==="en"?"EGP":"ج.م"}`;
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const hueOf=s=>{let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))%360;return h};
 const catColor=name=>`hsl(${hueOf(name)} 48% 50%)`;
-const dayLabel=d=>{const[y,m,dd]=d.split("-").map(Number);const w=new Date(y,m-1,dd).toLocaleDateString("ar-EG",{weekday:"long"});return`${w} ${dd} ${MONTHS[m-1]}`};
+const dayLabel=d=>{const[y,m,dd]=d.split("-").map(Number);const w=new Date(y,m-1,dd).toLocaleDateString(S.lang==="en"?"en-US":"ar-EG",{weekday:"long"});return`${w} ${dd} ${MN()[m-1]}`};
 
 const S={tab:"month",ym:THIS_YM,settings:{income:0,startDay:1,cats:DEFAULT_CATS,pays:DEFAULT_PAYS},expenses:[],fixed:[],mode:"loading",settingsLoaded:false};
+try{S.lang=localStorage.getItem("masarif.lang")==="en"?"en":"ar"}catch(e){S.lang="ar"}
+
+/* ---------- i18n ---------- */
+const MONTHS_EN=["January","February","March","April","May","June","July","August","September","October","November","December"];
+const MSHORT_EN=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const MN=()=>S.lang==="en"?MONTHS_EN:MONTHS;
+const MS=()=>S.lang==="en"?MSHORT_EN:MSHORT;
+const PV=()=>S.lang==="en"?"‹":"›", NX=()=>S.lang==="en"?"›":"‹";
+const EN={"مصاريفي": "Masarifi", "جاري التحميل…": "Loading…", "جاري التحميل": "Loading", "اختيار الشهر": "Choose month", "الشهر اللي فات": "Previous month", "الشهر الجاي": "Next month", "إضافة مصروف": "Add expense", "الأقسام": "Sections", "الشهر": "Month", "المصروفات": "Expenses", "الالتزامات": "Commitments", "التحليلات": "Analytics", "الإعدادات": "Settings", "أكل وبقالة": "Food & groceries", "مواصلات وبنزين": "Transport & fuel", "فواتير (كهرباء/مياه/غاز)": "Bills (power/water/gas)", "فواتير": "Bills", "كهرباء/مياه/غاز": "power/water/gas", "صحة وأدوية": "Health & medicine", "تعليم وأطفال": "Education & kids", "ملابس": "Clothes", "خروجات وترفيه": "Outings & fun", "هدايا ومناسبات": "Gifts & occasions", "كورسات وتطوير ذاتي": "Courses & self-development", "صيانة (عربية/بيت/أجهزة)": "Maintenance (car/home/devices)", "صيانة": "Maintenance", "عربية/بيت/أجهزة": "car/home/devices", "سفر ومصايف": "Travel & holidays", "أجهزة ومشتريات كبيرة": "Devices & big purchases", "ادخار واستثمار": "Savings & investing", "متنوع": "Misc", "كاش": "Cash", "فيزا/كريدت": "Visa/credit", "محفظة إلكترونية": "E-wallet", "إنستاباي": "InstaPay", "تحويل بنكي": "Bank transfer", "قسط": "Installment", "إيجار": "Rent", "اشتراك": "Subscription", "فاتورة ثابتة": "Fixed bill", "التزام عائلي": "Family support", "جمعية": "Savings circle", "تأمين": "Insurance", "أخرى": "Other", "من": "of", "لـ": "to", "ج.م": "EGP", "المساحة امتلت": "Storage is full", "امسح مصروفات قديمة وجرّب تاني": "Delete old expenses and try again", "مش مسموح بالحفظ من الحساب ده": "This account can't save", "مفيش اتصال دلوقتي": "No connection right now", "هيتحفظ لما النت يرجع": "It will save when you're back online", "الحفظ ماتمّش": "Saving failed", "جرّب تاني": "Try again", "محفوظ في حسابك": "Saved to your account", "محفوظ على الجهاز ده بس": "Saved on this device only", "اللي فاضل من الدخل": "Left from income", "توزيع الدخل": "Income split", "إجمالي المصروف": "Total spent", "اكتب دخلك الشهري عشان نحسب اللي فاضل": "Enter your monthly income to see what's left", "الدخل": "Income", "التزامات ثابتة": "Fixed commitments", "مصاريف متغيرة": "Variable expenses", "مستحق قريب": "Due soon", "خلال": "within", "أيام": "days", "النهارده": "today", "بكره": "tomorrow", "بعد": "in", "الميزانيات": "Budgets", "متبقي": "Left", "بدون ميزانية": "No budget", "عدّيت الميزانية": "Over budget", "اتصرف": "Spent", "في اليوم": "per day", "مفيش ميزانيات لسه": "No budgets yet", "لسه مفيش مصاريف في": "No expenses yet in", "اضغط زرار": "Tap the", "تحت عشان تسجّل أول مصروف، وضيف أقساطك من «الالتزامات»": "button below to log your first expense, and add your installments in «Commitments»", "سجّل مصروف": "Log expense", "مفيش مصروفات متسجلة في": "No expenses logged in", "كل مصروف بتسجله هيظهر هنا متقسم بالأيام": "Every expense you log shows up here, grouped by day", "إجمالي المتغير": "Variable total", "عدد المصروفات": "Expenses count", "تصدير كل البيانات لملف Excel": "Export all data to Excel", "تصدير كل البيانات لملف": "Export all data to", "التزامات الشهر ده": "This month's commitments", "متبقي على الأقساط": "Left on installments", "إضافة قسط أو التزام": "Add installment or commitment", "مفيش التزامات لسه": "No commitments yet", "سجّل الأقساط والإيجار والاشتراكات والجمعيات مرة واحدة، وهتتحسب لوحدها في كل شهر لحد ما تخلص": "Log installments, rent, subscriptions and savings circles once, and they're counted every month until they end", "خلص": "Ended", "يبدأ": "Starts", "فاضل شهر": "1 month left", "فاضل شهرين": "2 months left", "فاضل": "left", "شهر": "month", "شهرين": "2 months", "شهور": "months", "التزام": "Commitment", "شهرياً": "monthly", "اتدفع": "Paid", "مستمر": "Ongoing", "الجاي": "Next", "شغّالة": "Active", "مفيش": "None", "خلصت": "Finished", "الدخل الشهري": "Monthly income", "مثلاً": "e.g.", "يوم بداية الشهر عندك": "Month start day", "يوم بداية الشهر": "Month start day", "اليوم اللي بينزل فيه المرتب. لو كتبت 25، الشهر عندك هيبدأ من يوم 25 لحد يوم 24 اللي بعده، والميزانيات والتقارير هتتحسب على كده.": "The day your salary arrives. If you enter 25, your month runs from the 25th to the 24th of the next month, and budgets and reports follow that.", "الفئات والميزانية الشهرية": "Categories & monthly budget", "الإجمالي": "Total", "اسم الفئة": "Category name", "الميزانية": "Budget", "حذف الفئة": "Delete category", "إضافة فئة": "Add category", "طرق الدفع": "Payment methods", "طريقة الدفع": "Payment method", "حذف": "Delete", "إضافة طريقة دفع": "Add payment method", "حفظ الإعدادات": "Save settings", "إلغاء التعديلات": "Discard changes", "نسخة احتياطية": "Backup", "حفظ نسخة احتياطية": "Save backup", "استرجاع نسخة": "Restore backup", "البيانات متخزنة على الجهاز ده بس، فاحفظ نسخة احتياطية كل فترة عشان متضيعش لو مسحت بيانات المتصفح أو غيّرت الموبايل.": "Your data is stored on this device only, so save a backup now and then in case you clear your browser or change phones.", "تقدر تنقل بياناتك لأي نسخة تانية من التطبيق بالملف ده.": "You can move your data to any other copy of the app with this file.", "بياناتك محفوظة في حسابك، خاصة بيك بس، وبتظهر على أي جهاز تفتح منه الصفحة.": "Your data is saved to your account, private to you, and shows up on any device you open this page from.", "البيانات محفوظة على المتصفح ده بس.": "Data is saved in this browser only.", "متوسط آخر شهر": "average of last month", "متوسط آخر": "average of last", "على أساس صرف الشهر ده": "based on this month's spending", "على أساس الميزانيات": "based on your budgets", "تحليلات": "Analytics", "السنة اللي فاتت": "Previous year", "السنة الجاية": "Next year", "لحد دلوقتي": "so far", "في السنة": "this year", "متوسط الشهر": "Monthly average", "على": "over", "فيهم صرف": "with spending", "لسه مفيش بيانات": "No data yet", "أعلى شهر": "Highest month", "متوقع آخر السنة": "Projected by year-end", "الشهور الجاية": "Coming months", "إجمالي الالتزامات": "Total commitments", "اللي اتوفّر": "Saved", "اكتب دخلك في الإعدادات": "Enter your income in Settings", "الدخل ناقص المصروف": "Income minus spending", "اللي اتوفّر لحد دلوقتي": "Saved so far", "دخل": "Income of", "ناقص المصروف": "minus spending", "متوقع توفّر آخر السنة": "Projected savings by year-end", "لو كمّلت بنفس المعدل": "If you keep the same pace", "شهر بشهر": "Month by month", "اضغط على أي شهر يفتحه": "Tap a month to open it", "متوقع": "projected", "المصروف الشهري للسنة": "Monthly spending for the year", "الشهر ده مقابل اللي فات": "This month vs last", "لحد النهارده": "to date", "بالمعدل ده هيوصل": "At this pace it'll reach", "أقساط والتزامات ثابتة": "Installments & fixed commitments", "الصرف راح فين": "Where the money went", "مفيش صرف متسجل في": "No spending logged in", "لما تسجّل مصاريف هتشوف هنا كل فئة أخدت كام من فلوسك": "Once you log expenses you'll see how much each category took", "في": "in", "أقساط": "Installments", "اللي جاي": "Coming up", "ضيف أقساطك عشان تشوف الجاي": "Add your installments to see what's coming", "من «الالتزامات» سجّل كل قسط بتاريخ آخر شهر، وهنا هتعرف إمتى كل واحد هيخلص وهتوفّر كام": "In «Commitments», log each installment with its last month, and you'll see here when each one ends and how much you'll free up", "الـ": "Next", "الجايين": "", "الالتزامات هتقل": "Commitments drop by", "وتبقى": "to", "الالتزامات هتزيد": "Commitments rise by", "آخر قسط في التزاماتك الحالية": "Last installment of your current commitments", "بعدها هيفضل بس المستمر": "After that only ongoing ones remain", "صرفت أكتر من دخلك الشهر ده بـ": "You spent more than your income this month by", "وقّف أي صرف مش ضروري لحد أول الشهر": "Pause any non-essential spending until the new month", "بالمعدل ده هتصرف": "At this pace you'll spend", "وده أكتر من دخلك": "which is more than your income", "عشان تقفل الشهر في السليم، متعدّيش": "To finish the month safely, don't exceed", "في اليوم لباقي الشهر": "per day for the rest of the month", "الالتزامات الثابتة": "Fixed commitments are", "من دخلك": "of your income", "الطبيعي متعدّيش": "Ideally they stay under", "بلاش أقساط جديدة لحد ما حاجة تخلص": "Avoid new installments until one ends", "عدّيت ميزانية": "Over budget on", "بـ": "by", "فاضلها": "has", "بس من الميزانية": "left in its budget", "مستحق": "due", "مسجّلتش أي مصروف من": "No expense logged for", "سجّل أول بأول عشان الأرقام تبقى مظبوطة": "Log as you go so the numbers stay accurate", "تنبيهات": "Alerts", "محتاج توافق على استخدام المساعد من رسالة الإذن اللي ظهرت": "You need to approve the assistant in the permission prompt", "جرّب تاني ووافق": "Try again and approve", "طلبات كتير ورا بعض": "Too many requests in a row", "استنى دقيقة وجرّب تاني": "Wait a minute and try again", "المساعد مش متاح دلوقتي": "The assistant isn't available right now", "جرّب كمان شوية": "Try again shortly", "خطة للمرتب": "Salary plan", "توزيع الدخل على الفئات مقابل صرفك الفعلي": "Split your income across categories vs actual spending", "مراجعة الشهر ده": "Review this month", "ماشي كويس؟ وتعمل إيه لباقي الشهر": "On track? What to do for the rest of the month", "أوفّر منين؟": "Where can I save?", "أكبر": "Top", "أماكن توفّر فيها بالأرقام": "places to save, with numbers", "أبدأ أستثمر إزاي؟": "How do I start investing?", "صندوق طوارئ وأنواع استثمار عامة": "Emergency fund and general investment types", "مستشارك المالي": "Your financial advisor", "بالذكاء الاصطناعي": "AI-powered", "بيحلّل أرقامك…": "Analyzing your numbers…", "إيقاف": "Stop", "المستشار بيشوف ملخص أرقامك بس (الإجماليات والفئات والأقساط) وقت ما تطلب. النصايح عامة ومش بديل عن مستشار مالي مرخص.": "The advisor only sees a summary of your numbers (totals, categories, installments) when you ask. The advice is general and not a substitute for a licensed financial advisor.", "مصروف جديد": "New expense", "تعديل مصروف": "Edit expense", "إغلاق": "Close", "المبلغ": "Amount", "الفئة": "Category", "البند": "Item", "مثلاً: كورس Excel، بقالة الأسبوع": "e.g. Excel course, weekly groceries", "التاريخ": "Date", "ملاحظة": "Note", "اختياري": "Optional", "إضافة": "Add", "حفظ": "Save", "قسط أو التزام جديد": "New installment or commitment", "تعديل الالتزام": "Edit commitment", "الاسم": "Name", "مثلاً: قسط العربية": "e.g. Car installment", "النوع": "Type", "المبلغ الشهري": "Monthly amount", "يوم الاستحقاق": "Due day", "أول شهر": "First month", "آخر شهر": "Last month", "سيب «آخر شهر» فاضي لو الالتزام مستمر، زي الإيجار والاشتراكات.": "Leave «Last month» empty if it's ongoing, like rent and subscriptions.", "التاريخ/البداية": "Date/Start", "الفئة/النوع": "Category/Type", "طريقة الدفع/آخر شهر": "Payment/Last month", "ملاحظات": "Notes", "متغير": "Variable", "ثابت": "Fixed", "الحفظ اتلغى": "Save cancelled", "التصدير مش متاح هنا": "Export isn't available here", "الملف ده مش نسخة احتياطية من مصاريفي": "This file isn't a Masarifi backup", "اكتب المبلغ.": "Enter the amount.", "اختار الفئة.": "Choose a category.", "اختار التاريخ.": "Choose a date.", "اتحفظ": "Saved", "اتسجّل المصروف": "Expense logged", "اكتب اسم الالتزام.": "Enter the commitment name.", "اكتب المبلغ الشهري.": "Enter the monthly amount.", "يوم الاستحقاق من": "Due day must be from", "اختار أول شهر.": "Choose the first month.", "آخر شهر لازم يكون بعد أول شهر.": "Last month must be after the first month.", "اتضاف الالتزام": "Commitment added", "اضغط تاني للتأكيد": "Tap again to confirm", "اتمسح": "Deleted", "مكررة": "is duplicated", "اتحفظت الإعدادات": "Settings saved", "قسط العربية (مثال)": "Car installment (example)", "قسط الموبايل (مثال)": "Phone installment (example)", "اشتراك النت (مثال)": "Internet (example)", "الجمعية (مثال)": "Savings circle (example)", "مثال": "example", "اللغة": "Language"};
+const reEsc=x=>x.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+const FRX=new RegExp("(?<![\u0600-\u06FF])(?:"+Object.keys(EN).filter(k=>k.length>1).sort((a,b)=>b.length-a.length).map(reEsc).join("|")+")(?![\u0600-\u06FF])","g");
+const PAT=[[/^▲ أعلى (\d+)%$/,"▲ $1% higher"],[/^▼ أقل (\d+)%$/,"▼ $1% lower"],[/^اترجّع (\d+) مصروف و(\d+) التزام$/,"Restored $1 expenses and $2 commitments"],[/^الفئة «(.+)» مكررة$/,"Category «$1» is duplicated"]];
+function tx(str){
+  if(str==null)return str;str=String(str);
+  const s0=str.trim();if(!s0)return str;
+  let out=EN[s0];
+  if(out==null)for(const[r,e]of PAT){if(r.test(s0)){out=s0.replace(r,e);break}}
+  if(out==null)out=s0.replace(/(\d+) (شهور|شهر)(?![\u0600-\u06FF])/g,"$1 months").replace(/(\d+) أيام/g,"$1 days").replace(FRX,m=>EN[m]);
+  out=out.replace(/،/g,",").replace(/؟/g,"?").replace(/ {2,}/g," ").replace(/ ([,.:])/g,"$1").trim();
+  return str.replace(s0,out);
+}
+const T=x=>S.lang==="en"?tx(x):x;
+const ARX=/[\u0600-\u06FF]/;const ORIG=new WeakMap();
+function translateDOM(root){
+  if(!root)return;const en=S.lang==="en";
+  const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);const nodes=[];while(w.nextNode())nodes.push(w.currentNode);
+  for(const n of nodes){const p=n.parentElement;if(!p||p.closest("script,style,#aiOut,[data-keep]"))continue;
+    if(en){const o=n.__ar!=null?n.__ar:n.nodeValue;if(!ARX.test(o))continue;n.__ar=o;const u=p.closest("[data-u]");
+      if(u){const k=o.trim();n.nodeValue=EN[k]!=null?o.replace(k,EN[k]):o}else n.nodeValue=tx(o)}
+    else if(n.__ar!=null){n.nodeValue=n.__ar;n.__ar=null}}
+  root.querySelectorAll("[placeholder],[aria-label],[title]").forEach(el=>{let m=ORIG.get(el);
+    for(const a of["placeholder","aria-label","title"]){if(!el.hasAttribute(a))continue;
+      if(en){if(!m){m={};ORIG.set(el,m)}const o=m[a]!=null?m[a]:el.getAttribute(a);if(!ARX.test(o))continue;m[a]=o;el.setAttribute(a,tx(o))}
+      else if(m&&m[a]!=null){el.setAttribute(a,m[a]);m[a]=null}}});
+}
+const AR_DIG=/[\u0660-\u0669\u06F0-\u06F9\u066B\u066C]/;
+const normDigits=v=>String(v??"").replace(/[\u0660-\u0669]/g,c=>String(c.charCodeAt(0)-0x660)).replace(/[\u06F0-\u06F9]/g,c=>String(c.charCodeAt(0)-0x6F0)).replace(/\u066B/g,".").replace(/\u066C/g,"");
+const toNum=v=>Number(normDigits(v).replace(/,/g,"").replace(/[^\d.]/g,""))||0;
+document.addEventListener("input",e=>{const t=e.target;if(t&&t.tagName==="INPUT"&&(t.inputMode==="decimal"||t.inputMode==="numeric")&&AR_DIG.test(t.value)){const pos=t.selectionStart;t.value=normDigits(t.value);try{t.setSelectionRange(pos,pos)}catch(_){}}},true);
 try{const t=localStorage.getItem("masarif.tab");if(t)S.tab=t}catch(e){}
 
 /* ---------- storage ---------- */
@@ -363,6 +402,8 @@ const daysUntil=d=>{const[y,m,dd]=d.split("-").map(Number);return Math.round((ne
 
 /* ---------- render ---------- */
 function render(){
+  const en=S.lang==="en";document.documentElement.dir=en?"ltr":"rtl";document.documentElement.lang=en?"en":"ar";document.body.style.direction=en?"ltr":"rtl";
+  {const a=document.querySelector('[data-act="mprev"]'),b=document.querySelector('[data-act="mnext"]');if(a)a.textContent=PV();if(b)b.textContent=NX();}
   if(S.settingsLoaded&&!S.ymTouched)S.ym=CUR();
   document.getElementById("mlabel").textContent=ymLabel(S.ym);
   document.getElementById("modeNote").textContent=S.mode==="cloud"?"محفوظ في حسابك":S.mode==="local"?"محفوظ على الجهاز ده بس":"جاري التحميل…";
@@ -372,6 +413,7 @@ function render(){
   v.innerHTML=S.tab==="analytics"?viewAnalytics():S.tab==="list"?viewList():S.tab==="fixed"?viewFixed():S.tab==="settings"?viewSettings():viewMonth();
   document.querySelector(".fab").hidden=S.tab==="settings"||S.tab==="analytics";
   document.querySelector(".mswitch").style.visibility=(S.tab==="fixed"||S.tab==="settings"||S.tab==="analytics")?"hidden":"visible";
+  translateDOM(document.body);
 }
 
 function viewMonth(){
@@ -392,7 +434,7 @@ function viewMonth(){
   if(S.ym===CUR()){
     const soon=S.fixed.map(f=>({f,i:fixedInfo(f)})).filter(x=>x.i.next&&daysUntil(x.i.next)>=0&&daysUntil(x.i.next)<=10).sort((a,b)=>a.i.next.localeCompare(b.i.next));
     if(soon.length){h+=`<section><h2>مستحق قريب<small>خلال 10 أيام</small></h2><div class="panel">`+soon.map(({f,i})=>{const n=daysUntil(i.next);
-      return`<button class="row" type="button" data-act="editFixed" data-id="${esc(f.id)}"><span class="dot" style="background:var(--fixed)"></span><span class="main"><span class="t">${esc(f.name)}</span><span class="s">${n===0?"النهارده":n===1?"بكره":`بعد ${n} أيام`} · ${dayLabel(i.next)}</span></span><span class="amt num">${money(f.amount)}</span></button>`}).join("")+`</div></section>`}
+      return`<button class="row" type="button" data-act="editFixed" data-id="${esc(f.id)}"><span class="dot" style="background:var(--fixed)"></span><span class="main"><span class="t" data-u>${esc(f.name)}</span><span class="s">${n===0?"النهارده":n===1?"بكره":`بعد ${n} أيام`} · ${dayLabel(i.next)}</span></span><span class="amt num">${money(f.amount)}</span></button>`}).join("")+`</div></section>`}
   }
 
 
@@ -407,7 +449,7 @@ function viewMonth(){
     const big=!b?`<span class="rem over num">${fmt(sp)}</span>`:rem<0?`<span class="rem over num">−${fmt(-rem)}</span>`:`<span class="rem ${cls} num">${fmt(rem)}</span>`;
     const lbl=!b?"بدون ميزانية":rem<0?"عدّيت الميزانية":"متبقي";
     const sub=!b?`اتصرف ${fmt(sp)} ج.م`:`اتصرف <span class="num">${fmt(sp)}</span> من <span class="num">${fmt(b)}</span>${isCur&&rem>0&&daysLeft>1?` · <span class="num">${fmt(rem/daysLeft)}</span> في اليوم`:""}`;
-    return`<div class="bud"><div class="hd"><span class="dot" style="background:${catColor(c.name)}"></span><span class="nm">${esc(c.name)}</span><span class="remwrap"><small>${lbl}</small>${big}</span></div><div class="bar rembar ${cls}"><i style="width:${b?(rem<0?100:remPct):100}%"></i></div><div class="sub">${sub}</div></div>`}).join("")||`<div class="empty">مفيش ميزانيات لسه</div>`;
+    return`<div class="bud"><div class="hd"><span class="dot" style="background:${catColor(c.name)}"></span><span class="nm" data-u>${esc(c.name)}</span><span class="remwrap"><small>${lbl}</small>${big}</span></div><div class="bar rembar ${cls}"><i style="width:${b?(rem<0?100:remPct):100}%"></i></div><div class="sub">${sub}</div></div>`}).join("")||`<div class="empty">مفيش ميزانيات لسه</div>`;
   h+=`</div></section>`;
 
   if(!d.ex.length&&!d.fx.length&&S.settingsLoaded){
@@ -420,7 +462,7 @@ function expenseGroups(ex,maxDays){
   const groups={};for(const e of ex){(groups[e.date]=groups[e.date]||[]).push(e)}
   return Object.keys(groups).sort().reverse().slice(0,maxDays).map(day=>{const list=groups[day];const tot=list.reduce((a,e)=>a+(Number(e.amount)||0),0);
     return`<div><div class="day"><span>${dayLabel(day)}</span><span class="num">${money(tot)}</span></div><div class="panel">`+
-    list.map(e=>`<button class="row" type="button" data-act="editExp" data-id="${esc(e.id)}"><span class="dot" style="background:${catColor(e.cat)}"></span><span class="main"><span class="t">${esc(e.item||e.cat)}</span><span class="s">${esc(e.cat)}${e.pay?" · "+esc(e.pay):""}</span></span><span class="amt num">${fmt(e.amount)}</span></button>`).join("")+`</div></div>`}).join("");
+    list.map(e=>`<button class="row" type="button" data-act="editExp" data-id="${esc(e.id)}"><span class="dot" style="background:${catColor(e.cat)}"></span><span class="main"><span class="t" data-u>${esc(e.item||e.cat)}</span><span class="s">${esc(e.cat)}${e.pay?" · "+esc(e.pay):""}</span></span><span class="amt num">${fmt(e.amount)}</span></button>`).join("")+`</div></div>`}).join("");
 }
 function viewList(){
   const d=monthData(S.ym);
@@ -430,7 +472,7 @@ function viewList(){
   for(const day of Object.keys(groups).sort().reverse()){
     const list=groups[day];const tot=list.reduce((a,e)=>a+(Number(e.amount)||0),0);
     h+=`<div><div class="day"><span>${dayLabel(day)}</span><span class="num">${money(tot)}</span></div><div class="panel">`+
-      list.map(e=>`<button class="row" type="button" data-act="editExp" data-id="${esc(e.id)}"><span class="dot" style="background:${catColor(e.cat)}"></span><span class="main"><span class="t">${esc(e.item||e.cat)}</span><span class="s">${esc(e.cat)}${e.pay?" · "+esc(e.pay):""}${e.note?" · "+esc(e.note):""}</span></span><span class="amt num">${fmt(e.amount)}</span></button>`).join("")+`</div></div>`;
+      list.map(e=>`<button class="row" type="button" data-act="editExp" data-id="${esc(e.id)}"><span class="dot" style="background:${catColor(e.cat)}"></span><span class="main"><span class="t" data-u>${esc(e.item||e.cat)}</span><span class="s">${esc(e.cat)}${e.pay?" · "+esc(e.pay):""}${e.note?" · "+esc(e.note):""}</span></span><span class="amt num">${fmt(e.amount)}</span></button>`).join("")+`</div></div>`;
   }
   return h+exportBlock();
 }
@@ -452,7 +494,7 @@ function viewFixed(){
       i.total?`<span class="num">اتدفع ${i.paid} من ${i.total}</span>`:`<span>مستمر</span>`,
       i.remainingAmt?`<span class="num">متبقي ${money(i.remainingAmt)}</span>`:"",
       i.next?`<span>الجاي: ${dayLabel(i.next)}</span>`:""].filter(Boolean).join("");
-    return`<button class="fx ${i.ended?"ended":""}" type="button" data-act="editFixed" data-id="${esc(f.id)}"><div class="hd"><span class="nm">${esc(f.name)}</span>${st}</div>${prog}<div class="meta">${meta}</div></button>`};
+    return`<button class="fx ${i.ended?"ended":""}" type="button" data-act="editFixed" data-id="${esc(f.id)}"><div class="hd"><span class="nm" data-u>${esc(f.name)}</span>${st}</div>${prog}<div class="meta">${meta}</div></button>`};
   h+=`<section><h2>شغّالة<small>${active.length}</small></h2><div class="panel">${active.map(card).join("")||'<div class="bud">مفيش</div>'}</div></section>`;
   if(ended.length)h+=`<section><h2>خلصت<small>${ended.length}</small></h2><div class="panel">${ended.map(card).join("")}</div></section>`;
   return h;
@@ -462,7 +504,8 @@ let draft=null;
 function viewSettings(){
   if(!draft)draft=JSON.parse(JSON.stringify(S.settings));
   const total=draft.cats.reduce((a,c)=>a+(Number(c.budget)||0),0);
-  return`<section><h2>الدخل الشهري</h2><div class="field"><input id="s-income" class="num" inputmode="decimal" value="${esc(draft.income||"")}" placeholder="مثلاً 25000" aria-label="الدخل الشهري"></div></section>
+  return`<section><h2 data-keep>اللغة · Language</h2><div class="chips" data-keep><button type="button" class="chip" data-act="lang" data-v="ar" aria-pressed="${S.lang!=="en"}">العربية</button><button type="button" class="chip" data-act="lang" data-v="en" aria-pressed="${S.lang==="en"}">English</button></div></section>
+  <section><h2>الدخل الشهري</h2><div class="field"><input id="s-income" class="num" inputmode="decimal" value="${esc(draft.income||"")}" placeholder="مثلاً 25000" aria-label="الدخل الشهري"></div></section>
   <section><h2>يوم بداية الشهر عندك</h2><div class="field"><input id="s-start" class="num" inputmode="numeric" value="${esc(draft.startDay||1)}" placeholder="1 – 28" aria-label="يوم بداية الشهر"><p class="hint">اليوم اللي بينزل فيه المرتب. لو كتبت 25، الشهر عندك هيبدأ من يوم 25 لحد يوم 24 اللي بعده، والميزانيات والتقارير هتتحسب على كده.</p></div></section>
   <section><h2>الفئات والميزانية الشهرية<small class="num">الإجمالي ${money(total)}</small></h2><div class="panel">
   ${draft.cats.map((c,i)=>`<div class="setrow"><input id="s-cn-${i}" data-cn="${i}" value="${esc(c.name)}" aria-label="اسم الفئة"><input id="s-cb-${i}" data-cb="${i}" class="num" inputmode="decimal" value="${esc(c.budget)}" aria-label="الميزانية"><button class="x" type="button" data-act="delCat" data-i="${i}" aria-label="حذف الفئة">✕</button></div>`).join("")}
@@ -477,10 +520,10 @@ function viewSettings(){
 }
 function readDraft(){
   if(!draft)return;
-  const inc=document.getElementById("s-income");if(inc)draft.income=Number(String(inc.value).replace(/[^\d.]/g,""))||0;
-  const sd=document.getElementById("s-start");if(sd)draft.startDay=Math.min(28,Math.max(1,Math.round(Number(String(sd.value).replace(/[^\d]/g,""))||1)));
+  const inc=document.getElementById("s-income");if(inc)draft.income=toNum(inc.value);
+  const sd=document.getElementById("s-start");if(sd)draft.startDay=Math.min(28,Math.max(1,Math.round(toNum(sd.value)||1)));
   document.querySelectorAll("[data-cn]").forEach(el=>draft.cats[+el.dataset.cn].name=el.value.trim());
-  document.querySelectorAll("[data-cb]").forEach(el=>draft.cats[+el.dataset.cb].budget=Number(String(el.value).replace(/[^\d.]/g,""))||0);
+  document.querySelectorAll("[data-cb]").forEach(el=>draft.cats[+el.dataset.cb].budget=toNum(el.value));
   document.querySelectorAll("[data-p]").forEach(el=>draft.pays[+el.dataset.p]=el.value.trim());
 }
 
@@ -509,7 +552,7 @@ function viewAnalytics(){
   const top=withData.reduce((a,x)=>!a||x.t>a.t?x:a,null);
   const yearEnd=spent+proj.reduce((a,x)=>a+x.t,0);
   const saved=inc?inc*actual.length-spent:null;
-  let h=`<div class="yswitch"><span class="yl num">تحليلات ${Y}</span><div class="mswitch"><button type="button" data-act="yprev" aria-label="السنة اللي فاتت">›</button><span class="num">${Y}</span><button type="button" data-act="ynext" aria-label="السنة الجاية">‹</button></div></div>`;
+  let h=`<div class="yswitch"><span class="yl num">تحليلات ${Y}</span><div class="mswitch"><button type="button" data-act="yprev" aria-label="السنة اللي فاتت">${PV()}</button><span class="num">${Y}</span><button type="button" data-act="ynext" aria-label="السنة الجاية">${NX()}</button></div></div>`;
   h+=`<div class="kpis num">
     <div class="kpi"><span>اتصرف ${proj.length&&actual.length?"لحد دلوقتي":"في السنة"}</span><b>${money(spent)}</b><small>${actual.length} ${actual.length>10||actual.length<3?"شهر":"شهور"}</small></div>
     <div class="kpi"><span>متوسط الشهر</span><b>${money(mAvg)}</b><small>${withData.length?`على ${withData.length} ${withData.length>10||withData.length<3?"شهر":"شهور"} فيهم صرف`:"لسه مفيش بيانات"}</small></div>
@@ -532,10 +575,10 @@ function barChart(months,inc){
   const top=Math.ceil(maxV/step)*step,y=v=>pt+ch-(v/top)*ch;
   let g="";
   for(let t=0;t<=top+0.001;t+=step){g+=`<line class="grid" x1="${pl}" x2="${pl+cw}" y1="${y(t)}" y2="${y(t)}"/><text class="axl" x="${W-2}" y="${y(t)+3}" text-anchor="end">${kfmt(t)}</text>`}
-  months.forEach((x,i)=>{const cx=pl+cw-(i+.5)*bw,w=Math.max(6,bw*.62),x0=cx-w/2;
+  months.forEach((x,i)=>{const cx=S.lang==="en"?pl+(i+.5)*bw:pl+cw-(i+.5)*bw,w=Math.max(6,bw*.62),x0=cx-w/2;
     const yf=y(x.f),yv=y(x.f+x.v);
     g+=`<g class="${x.fut?"proj":""}">${x.f>0?`<rect class="bf" x="${x0}" y="${yf}" width="${w}" height="${Math.max(0,pt+ch-yf)}" rx="2"/>`:""}${x.v>0?`<rect class="bv" x="${x0}" y="${yv}" width="${w}" height="${Math.max(0,yf-yv)}" rx="2"/>`:""}${x.fut&&x.t>0?`<rect class="outline" x="${x0}" y="${yv}" width="${w}" height="${pt+ch-yv}" rx="2"/>`:""}</g>`;
-    g+=`<text class="mlab ${x.cur?"cur":""}" x="${cx}" y="${H-8}" text-anchor="middle">${MSHORT[x.m-1]}</text>`;
+    g+=`<text class="mlab ${x.cur?"cur":""}" x="${cx}" y="${H-8}" text-anchor="middle">${MS()[x.m-1]}</text>`;
     g+=`<rect class="hit" x="${cx-bw/2}" y="${pt}" width="${bw}" height="${ch+pb}" data-act="gomonth" data-ym="${x.ym}"><title>${ymLabel(x.ym)}: ${money(x.t)}${x.fut?" (متوقع)":""}</title></rect>`});
   if(inc)g+=`<line class="inc" x1="${pl}" x2="${pl+cw}" y1="${y(inc)}" y2="${y(inc)}"/><text class="inclab" x="${pl+2}" y="${y(inc)-4}">الدخل</text>`;
   return`<div class="chartbox"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="المصروف الشهري للسنة">${g}</svg>
@@ -554,7 +597,7 @@ function compareBlock(){
   return`<section><h2>الشهر ده مقابل اللي فات</h2><div class="kpis num">
   <div class="kpi"><span>${ymLabel(a)} لحد النهارده</span><b>${money(ta)}</b><small>بالمعدل ده هيوصل ${money(pace)}</small></div>
   <div class="kpi"><span>${ymLabel(b)}</span><b>${money(tb)}</b><small>${diff==null?"":`<span class="${diff>0?"up":"down"}">${diff>0?"▲ أعلى":"▼ أقل"} ${Math.abs(Math.round(diff*100))}%</span> متوقع`}</small></div></div>
-  ${ch.length?`<div class="panel" style="margin-top:10px">${ch.map(x=>`<div class="row" style="cursor:default"><span class="dot" style="background:${catColor(x.c)}"></span><span class="main"><span class="t">${esc(x.c)}</span></span><span class="amt num" style="color:${x.d>0?"var(--bad)":"var(--good)"}">${x.d>0?"+":"−"}${fmt(Math.abs(x.d))}</span></div>`).join("")}</div>`:""}</section>`;
+  ${ch.length?`<div class="panel" style="margin-top:10px">${ch.map(x=>`<div class="row" style="cursor:default"><span class="dot" style="background:${catColor(x.c)}"></span><span class="main"><span class="t" data-u>${esc(x.c)}</span></span><span class="amt num" style="color:${x.d>0?"var(--bad)":"var(--good)"}">${x.d>0?"+":"−"}${fmt(Math.abs(x.d))}</span></div>`).join("")}</div>`:""}</section>`;
 }
 function categoryBlock(Y){
   const by={};let tot=0;
@@ -565,7 +608,7 @@ function categoryBlock(Y){
   const all=tot+fx;if(!all)return`<section><h2>الصرف راح فين</h2><div class="empty"><b>مفيش صرف متسجل في ${Y}</b>لما تسجّل مصاريف هتشوف هنا كل فئة أخدت كام من فلوسك.</div></section>`;
   const mx=rows[0][1];
   return`<section><h2>الصرف راح فين<small class="num">${money(all)} في ${Y}</small></h2><div class="panel">${rows.map(([c,v],i)=>{const col=i===0&&fx&&c.startsWith("أقساط")?"var(--fixed)":catColor(c);
-    return`<div class="catbar"><div class="hd"><span class="dot" style="background:${col}"></span><span class="nm">${esc(c)}</span><span class="v num">${fmt(v)} · ${Math.round(v/all*100)}%</span></div><div class="bar"><i style="width:${v/mx*100}%;--c:${col}"></i></div></div>`}).join("")}</div></section>`;
+    return`<div class="catbar"><div class="hd"><span class="dot" style="background:${col}"></span><span class="nm" data-u>${esc(c)}</span><span class="v num">${fmt(v)} · ${Math.round(v/all*100)}%</span></div><div class="bar"><i style="width:${v/mx*100}%;--c:${col}"></i></div></div>`}).join("")}</div></section>`;
 }
 function outlookBlock(){
   const items=[];let prev=fixedOf(THIS_YM);
@@ -632,16 +675,16 @@ async function askAI(kind){
 - لو البيانات قليلة (مفيش دخل أو مصاريف قليلة) قول كده بوضوح واطلب منه يسجّل أكتر، واديله نصايح عامة.
 - في الاستثمار: اتكلم عن أنواع عامة بس، من غير ما ترشّح بنك أو صندوق أو سهم معين، ومن غير ما تذكر أسعار فايدة أو عوائد بأرقام لأنها بتتغير. قول إن الصندوق الطوارئ والأقساط ليهم أولوية. واختم بسطر إن دي معلومات عامة مش نصيحة استثمارية مرخصة، وإنه يراجع العوائد الحالية ويستشير مختص قبل أي قرار.
 - متخترعش أرقام مش موجودة في البيانات.`;
-  const input=[{role:"user",content:`${sys}\n\nالبيانات:\n${JSON.stringify(financeSummary())}\n\nالطلب: ${PROMPTS[kind]}`}];
+  const input=[{role:"user",content:`${sys}${S.lang==="en"?"\n- Reply entirely in clear, simple English.":""}\n\nالبيانات:\n${JSON.stringify(financeSummary())}\n\nالطلب: ${PROMPTS[kind]}`}];
   AI.ctrl=new AbortController();
   try{
     const r=await AI.sample(input,{signal:AI.ctrl.signal,modelTier:"default",cache:false,onText:({text})=>{AI.out=text;const el=document.getElementById("aiOut");if(el)el.innerHTML=mdLite(text)}});
     AI.out=r.text;
   }catch(e){
-    if(e&&e.code==="not_granted")AI.out="⚠️ محتاج توافق على استخدام المساعد من رسالة الإذن اللي ظهرت. جرّب تاني ووافق.";
-    else if(e&&e.code==="rate_limited")AI.out="⚠️ طلبات كتير ورا بعض. استنى دقيقة وجرّب تاني.";
+    if(e&&e.code==="not_granted")AI.out=T("⚠️ محتاج توافق على استخدام المساعد من رسالة الإذن اللي ظهرت. جرّب تاني ووافق.");
+    else if(e&&e.code==="rate_limited")AI.out=T("⚠️ طلبات كتير ورا بعض. استنى دقيقة وجرّب تاني.");
     else if(e&&e.name==="AbortError")AI.out="";
-    else AI.out=(e&&e.text)||"⚠️ المساعد مش متاح دلوقتي. جرّب كمان شوية.";
+    else AI.out=(e&&e.text)||T("⚠️ المساعد مش متاح دلوقتي. جرّب كمان شوية.");
   }
   AI.busy=false;render();
 }
@@ -660,7 +703,7 @@ function advisorBlock(){
   const asks=[["plan","خطة للمرتب","توزيع الدخل على الفئات مقابل صرفك الفعلي"],["month","مراجعة الشهر ده","ماشي كويس؟ وتعمل إيه لباقي الشهر"],["save","أوفّر منين؟","أكبر 5 أماكن توفّر فيها بالأرقام"],["invest","أبدأ أستثمر إزاي؟","صندوق طوارئ وأنواع استثمار عامة"]];
   return`<section><h2>مستشارك المالي<small>بالذكاء الاصطناعي</small></h2><div class="adv">
   <div class="asks">${asks.map(([k,t,d])=>`<button class="ask" type="button" data-act="ai" data-k="${k}" ${AI.busy||!AI.sample?"disabled":""}><span>${t}<small>${d}</small></span></button>`).join("")}</div>
-  ${AI.busy||AI.out?`<div class="out" id="aiOut" aria-live="polite">${AI.out?mdLite(AI.out):"بيحلّل أرقامك…"}</div>`:""}
+  ${AI.busy||AI.out?`<div class="out" id="aiOut" aria-live="polite">${AI.out?mdLite(AI.out):T("بيحلّل أرقامك…")}</div>`:""}
   ${AI.busy?`<button class="btn ghost" type="button" data-act="aiStop">إيقاف</button>`:""}
   <p class="note">المستشار بيشوف ملخص أرقامك بس (الإجماليات والفئات والأقساط) وقت ما تطلب. النصايح عامة ومش بديل عن مستشار مالي مرخص.</p>
   </div></section>`;
@@ -668,7 +711,7 @@ function advisorBlock(){
 
 /* ---------- sheets ---------- */
 const host=document.getElementById("sheetHost");
-function openSheet(html,onMount){host.innerHTML=`<div class="scrim" data-act="closeScrim"><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`;onMount&&onMount(host.querySelector(".sheet"));const f=host.querySelector("[autofocus]");f&&setTimeout(()=>f.focus(),60)}
+function openSheet(html,onMount){host.innerHTML=`<div class="scrim" data-act="closeScrim"><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`;translateDOM(host);onMount&&onMount(host.querySelector(".sheet"));const f=host.querySelector("[autofocus]");f&&setTimeout(()=>f.focus(),60)}
 function closeSheet(){host.innerHTML=""}
 
 function expSheet(e){
@@ -700,14 +743,15 @@ function fixedSheet(f){
 }
 const picked=k=>{const b=host.querySelector(`[data-pick="${k}"][aria-pressed="true"]`);return b?b.dataset.v:""};
 const val=id=>(document.getElementById(id)||{}).value||"";
-const numv=id=>Number(String(val(id)).replace(/[^\d.]/g,""));
+const numv=id=>toNum(val(id));
 
-function toast(msg){const t=document.getElementById("toastHost");t.innerHTML=`<div class="toast" role="status">${esc(msg)}</div>`;clearTimeout(toast._t);toast._t=setTimeout(()=>t.innerHTML="",2400)}
+function toast(msg){const t=document.getElementById("toastHost");t.innerHTML=`<div class="toast" role="status">${esc(T(msg))}</div>`;clearTimeout(toast._t);toast._t=setTimeout(()=>t.innerHTML="",2400)}
 
 async function exportCsv(){
   const rows=[["النوع","التاريخ/البداية","البند","الفئة/النوع","المبلغ","طريقة الدفع/آخر شهر","ملاحظات"]];
   [...S.expenses].sort((a,b)=>(a.date||"").localeCompare(b.date||"")).forEach(e=>rows.push(["متغير",e.date,e.item,e.cat,e.amount,e.pay,e.note]));
   S.fixed.forEach(f=>rows.push(["ثابت",f.start,f.name,f.type,f.amount,f.end||"مستمر",f.note]));
+  if(S.lang==="en"){rows[0]=rows[0].map(tx);for(let i=1;i<rows.length;i++){rows[i][0]=tx(rows[i][0]);rows[i][3]=tx(rows[i][3]||"");if(rows[i][5])rows[i][5]=tx(rows[i][5])}}
   const csv="﻿"+rows.map(r=>r.map(c=>`"${String(c??"").replace(/"/g,'""')}"`).join(",")).join("\r\n");
   await saveFile(`مصاريفي-${TODAY}.csv`,new Blob([csv],{type:"text/csv"}));
 }
@@ -778,6 +822,7 @@ document.addEventListener("click",async ev=>{
       const s={income:draft.income,startDay:draft.startDay||1,cats:cats.length?cats:DEFAULT_CATS,pays:draft.pays.filter(Boolean)};
       el.disabled=true;await api.saveSettings(s);draft=null;render();toast("اتحفظت الإعدادات");break}
     case"export":exportCsv();break;
+    case"lang":readDraft();S.lang=el.dataset.v==="en"?"en":"ar";try{localStorage.setItem("masarif.lang",S.lang)}catch(_){}render();break;
     case"toggleBud":S.showAllBud=!S.showAllBud;render();break;
     case"toggleExp":S.showAllExp=!S.showAllExp;render();break;
     case"ai":askAI(el.dataset.k);break;
