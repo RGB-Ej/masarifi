@@ -26,5 +26,37 @@
    "type": "image/png",
    "purpose": "maskable"
   }
+ ],
+ "share_target": {
+  "action": "./",
+  "method": "GET",
+  "params": {
+   "text": "sms",
+   "title": "title"
+  }
+ },
+ "shortcuts": [
+  {
+   "name": "إضافة بالصوت",
+   "short_name": "بالصوت",
+   "url": "./#voice",
+   "icons": [
+    {
+     "src": "icon-192.png",
+     "sizes": "192x192"
+    }
+   ]
+  },
+  {
+   "name": "إضافة سريعة",
+   "short_name": "سريع",
+   "url": "./#easy",
+   "icons": [
+    {
+     "src": "icon-192.png",
+     "sizes": "192x192"
+    }
+   ]
+  }
  ]
 }
